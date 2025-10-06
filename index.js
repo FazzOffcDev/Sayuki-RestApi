@@ -19,6 +19,11 @@ const { Server } = require("socket.io");
 const path = require("path");
 const geoip = require("geoip-lite");
 const axios = require("axios");
+// Pastikan waktu serverStartTime tersimpan secara global
+if (!global.serverStartTime) {
+  global.serverStartTime = new Date();
+  console.log(`🚀 Server started at: ${global.serverStartTime.toISOString()}`);
+}
 
 const app = express();
 const server = http.createServer(app);
