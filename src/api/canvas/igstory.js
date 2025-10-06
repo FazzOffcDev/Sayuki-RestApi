@@ -1,7 +1,7 @@
 const axios = require("axios");
 const sharp = require("sharp");
 const { createCanvas, loadImage } = require("canvas");
-
+module.exports = function (app, prefix = "") {
 app.get(`${prefix}/canvas/igstory`, async (req, res) => {
   const {
     username = "b4mzciIIIIIII",
@@ -55,3 +55,4 @@ app.get(`${prefix}/canvas/igstory`, async (req, res) => {
     res.status(500).json({ status: false, message: err.message });
   }
 });
+}
