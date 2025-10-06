@@ -1,69 +1,40 @@
-/**
- * /api/system/stats — Server Statistics Endpoint
- * Mengembalikan CPU, RAM, Disk, dan Network Info
- */
-
 const os = require("os");
-const fs = require("fs");
+const osUtils = require("os-utils");
+const moment = require("moment");
 
 module.exports = function (app, prefix = "") {
   app.get(`${prefix}/system/stats`, async (req, res) => {
     try {
-      const totalMem = os.totalmem();
-      const freeMem = os.freemem();
-      const usedMem = totalMem - freeMem;
-      const cpuLoad = os.loadavg(); // [1m, 5m, 15m]
-      const uptime = os.uptime();
-      const cpus = os.cpus();
+      const uptimeSeconds = Math.floor((Date.now() - global.serverStartTime.getTime()) / 1000);
+      const uptimeText = formatDuration(uptimeSeconds);
 
-      // Disk usage (Linux-based)
-      let disk = { total: 0, free: 0, used: 0 };
-      try {
-        const { execSync } = require("child_process");
-        const result = execSync("df -k / | tail -1").toString().split(/\s+/);
-        disk = {
-          total: parseInt(result[1]) * 1024,
-          used: parseInt(result[2]) * 1024,
-          free: parseInt(result[3]) * 1024,
+      osUtils.cpuUsage(cpuPercent => {
+        const stats = {
+          status: true,
+          platform: os.platform(),
+          arch: os.arch(),
+          cpus: os.cpus().length,
+          cpuUsage: `${(cpuPercent * 100).toFixed(1)}%`,
+          memoryUsed: `${((os.totalmem() - os.freemem()) / 1024 / 1024).toFixed(1)} MB`,
+          memoryTotal: `${(os.totalmem() / 1024 / 1024).toFixed(1)} MB`,
+          uptimeText,
+          startedAt: moment(global.serverStartTime).format("YYYY-MM-DD HH:mm:ss"),
+          timestamp: moment().format("YYYY-MM-DD HH:mm:ss")
         };
-      } catch {}
-
-      const data = {
-        cpuCount: cpus.length,
-        cpuLoad: {
-          "1min": cpuLoad[0].toFixed(2),
-          "5min": cpuLoad[1].toFixed(2),
-          "15min": cpuLoad[2].toFixed(2),
-        },
-        memory: {
-          total: totalMem,
-          used: usedMem,
-          free: freeMem,
-          usagePercent: ((usedMem / totalMem) * 100).toFixed(1),
-        },
-        disk: {
-          total: disk.total,
-          used: disk.used,
-          free: disk.free,
-          usagePercent: disk.total ? ((disk.used / disk.total) * 100).toFixed(1) : null,
-        },
-        uptimeSeconds: uptime,
-        uptimeReadable: formatUptime(uptime),
-        hostname: os.hostname(),
-        platform: os.platform(),
-        timestamp: new Date().toISOString(),
-      };
-
-      res.json({ status: true, data });
+        res.json(stats);
+      });
     } catch (err) {
-      res.status(500).json({ status: false, error: err.message });
+      res.status(500).json({ status: false, message: err.message });
     }
   });
 };
 
-function formatUptime(seconds) {
-  const d = Math.floor(seconds / (3600 * 24));
-  const h = Math.floor((seconds % (3600 * 24)) / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  return `${d}d ${h}h ${m}m`;
+// 🧠 Fungsi untuk ubah detik ke format hari, jam, menit, detik
+function formatDuration(seconds) {
+  const days = Math.floor(seconds / 86400);
+  const hours = Math.floor((seconds % 86400) / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  return `${days > 0 ? days + " hari, " : ""}${hours} jam, ${minutes} menit, ${secs} detik`;
 }
