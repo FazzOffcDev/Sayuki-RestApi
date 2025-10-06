@@ -49,7 +49,14 @@
   "desc": "Menampilkan statistik server secara real-time seperti CPU, RAM, Disk, dan uptime dalam bentuk visual Chart.js.",
   "path": "/server-stats",
   "innerDesc": "Halaman ini menampilkan status server dalam waktu nyata — CPU load (1m/5m/15m), penggunaan memori dan disk, uptime, serta grafik performa yang diperbarui otomatis setiap 5 detik. Data diambil dari endpoint /api/system/stats."
+},
+{
+  "name": "Server Uptime Monitor",
+  "desc": "Menampilkan waktu server berjalan sejak pertama kali aktif di Vercel atau terminal, lengkap dengan durasi uptime real-time.",
+  "path": "/endpoint/system/stats",
+  "innerDesc": "Endpoint ini menampilkan statistik server, termasuk CPU, RAM, dan uptime sejak server pertama kali dijalankan. Gunakan untuk memantau status server dengan presisi tinggi."
 }
+
         ]
         },
   {
@@ -64,7 +71,7 @@
 {
     "name": "AI GPT-3",
     "desc": "Interaksi dengan model GPT-3 menggunakan sistem prompt dan input user.",
-    "path": "/api/ai/gpt3?prompt=&content=",
+    "path": "/endpoint/ai/gpt3?prompt=&content=",
     "innerDesc": "Gunakan query ?prompt= untuk sistem prompt dan ?content= untuk pesan user."
   },
     {
@@ -81,7 +88,7 @@
 {
     "name": "AI MagicStudio",
     "desc": "Generate AI-powered art from a text prompt.",
-    "path": "/api/ai/magicstudio?prompt=",
+    "path": "/endpoint/ai/magicstudio?prompt=",
     "innerDesc": "Gunakan query ?prompt= untuk mendeskripsikan gambar yang ingin dibuat (contoh: ?prompt=portrait%20of%20a%20wizard%20with%20a%20long%20beard)."
   },
     {
