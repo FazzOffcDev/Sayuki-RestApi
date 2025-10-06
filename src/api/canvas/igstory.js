@@ -1,10 +1,4 @@
-/**
- * /api/canvas/igstory
- * Membuat gambar mirip Instagram Story dengan background hitam dan teks custom di tengah.
- */
-
-const { createCanvas, loadImage, registerFont } = require("canvas");
-const path = require("path");
+const { createCanvas, loadImage } = require("canvas");
 
 module.exports = function (app, prefix = "") {
   app.get(`${prefix}/canvas/igstory`, async (req, res) => {
@@ -19,14 +13,11 @@ module.exports = function (app, prefix = "") {
       const canvas = createCanvas(width, height);
       const ctx = canvas.getContext("2d");
 
-      // 🖤 Background full hitam
-      ctx.fillStyle = "#000000";
+      // Background hitam
+      ctx.fillStyle = "#000";
       ctx.fillRect(0, 0, width, height);
 
-      // ✍️ Font
-      registerFont(path.join(__dirname, "../../assets/font/Poppins-SemiBold.ttf"), { family: "Poppins" });
-
-      // 🧍 Foto profil di atas kiri
+      // Foto profil
       const pfp = await loadImage(avatar);
       const avatarSize = 80;
       const avatarX = 50;
@@ -39,41 +30,36 @@ module.exports = function (app, prefix = "") {
       ctx.drawImage(pfp, avatarX, avatarY, avatarSize, avatarSize);
       ctx.restore();
 
-      // 👤 Username di sebelah kanan foto profil
-      ctx.fillStyle = "#ffffff";
-      ctx.font = "30px Poppins";
+      // Username
+      ctx.fillStyle = "#fff";
+      ctx.font = "30px Arial";
       ctx.textAlign = "left";
       ctx.fillText(username, avatarX + avatarSize + 30, avatarY + avatarSize / 1.5);
 
-      // 📝 Text di tengah (custom)
-      ctx.font = "bold 50px Poppins";
+      // Text di tengah
+      ctx.font = "bold 50px Arial";
       ctx.textAlign = "center";
-      ctx.fillStyle = "#ffffff";
       const lines = wrapText(ctx, text, width - 200);
       lines.forEach((line, i) => {
         ctx.fillText(line, width / 2, height / 2 + i * 60);
       });
 
-      // 🔊 Icon volume kanan bawah
-      ctx.font = "40px Poppins";
+      // Icon volume
+      ctx.font = "40px Arial";
       ctx.fillText("🔊", width - 60, height - 50);
 
-      // ✅ Output
       res.setHeader("Content-Type", "image/png");
       res.send(canvas.toBuffer("image/png"));
-
     } catch (err) {
       res.status(500).json({ status: false, message: err.message });
     }
   });
 };
 
-// 🧠 Fungsi untuk membungkus teks panjang otomatis
 function wrapText(ctx, text, maxWidth) {
   const words = text.split(" ");
   const lines = [];
   let currentLine = words[0];
-
   for (let i = 1; i < words.length; i++) {
     const word = words[i];
     const width = ctx.measureText(currentLine + " " + word).width;
