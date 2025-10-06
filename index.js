@@ -222,24 +222,49 @@ async function sendTelegramAlert(message) {
 console.log("🤖 Sayuki Telegram Bot v2 active.");
 
 
+const axios = require("axios");
+
+// Ganti ini dengan token & chat ID milik kamu
+// 🧩 Queue untuk menampung pesan
+let telegramQueue = [];
+let telegramTimer = null;
+const TELEGRAM_DEBOUNCE_MS = 10 * 1000; // 10 detik
+
+/**
+ * ✅ Fungsi utama pengirim pesan (dengan debounce)
+ */
 async function sendTelegramNotification(message) {
-  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
-    console.warn("⚠️ Telegram env not set, skipping message");
-    return;
-  }
   try {
-    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-    const payload = {
-      chat_id: TELEGRAM_CHAT_ID,
-      text: message,
-      parse_mode: "html"
-    };
-    const res = await axios.post(url, payload);
-    if (!res.data.ok) console.error("Telegram API responded not ok:", res.data);
+    // Tambahkan ke queue
+    telegramQueue.push(message);
+
+    // Kalau belum ada timer, buat baru
+    if (!telegramTimer) {
+      telegramTimer = setTimeout(async () => {
+        const batchedMessage = telegramQueue.join("\n\n"); // gabungkan semua pesan
+        telegramQueue = [];
+        telegramTimer = null;
+
+        // Kirim pesan gabungan ke Telegram
+        if (batchedMessage.trim() !== "") {
+        const MAX_TELEGRAM_MESSAGE = 4000;
+const safeMessage = batchedMessage.slice(0, MAX_TELEGRAM_MESSAGE);
+          await axios.post(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            chat_id: TELEGRAM_CHAT_ID,
+            text: batchedMessage,
+            parse_mode: "HTML"
+          });
+
+          console.log(`📬 Telegram batch sent (${batchedMessage.length} chars)`);
+        }
+      }, TELEGRAM_DEBOUNCE_MS);
+    }
   } catch (err) {
-    console.error("Telegram send error:", err.response?.data || err.message);
+    console.error("⚠️ Telegram queue error:", err.message);
   }
 }
+
+
 
 // ===============================
 // Country Name Mapping (ISO → Full Name)
@@ -493,6 +518,10 @@ app.post('/health/run', async (req, res) => {
 // ===============================
 // Middleware Logging
 // ===============================
+// ====== Tambahkan di atas ======
+let lastSummarySent = 0;
+const SUMMARY_INTERVAL = 7 * 24 * 60 * 60 * 1000; // 7 hari (ms)
+
 app.use((req, res, next) => {
   const start = Date.now();
   const countryCode = detectCountry(req);
@@ -500,13 +529,14 @@ app.use((req, res, next) => {
 
   if (!stats.globalUsage[countryCode]) stats.globalUsage[countryCode] = 0;
   stats.globalUsage[countryCode]++;
-  
+
   res.on("finish", () => {
     stats.requests++;
     const duration = Date.now() - start;
     const statusCode = res.statusCode;
     const route = req.path.split("?")[0];
-   const latency = Date.now() - start;
+    const latency = Date.now() - start;
+
     io.emit("api_request", {
       method: req.method,
       path: req.originalUrl,
@@ -514,6 +544,7 @@ app.use((req, res, next) => {
       latency,
       timestamp: new Date().toISOString()
     });
+
     const color =
       statusCode >= 500 ? "bgRed" :
       statusCode >= 400 ? "bgYellow" :
@@ -528,6 +559,7 @@ app.use((req, res, next) => {
       chalk.magenta(` - ${duration}ms`)
     );
 
+    // ✅ Statistik
     if (statusCode < 400) stats.success++;
     else {
       stats.error++;
@@ -538,12 +570,16 @@ app.use((req, res, next) => {
       }
     }
 
-    if (stats.requests % 100 === 0) {
+    // 🕒 Kirim notifikasi ringkasan 1x/minggu
+    const now = Date.now();
+    if (now - lastSummarySent > SUMMARY_INTERVAL) {
       sendTelegramNotification(
-        `📈 <b>Total Requests:</b> ${stats.requests}\n✅ ${stats.success} | ❌ ${stats.error}`
+        `📈 <b>Total Requests:</b> ${stats.requests}\n✅ ${stats.success} | ❌ ${stats.error}\n🕒 Weekly Summary`
       );
+      lastSummarySent = now;
     }
 
+    // ⏱ Statistik per route
     if (!stats.perRoute[route]) stats.perRoute[route] = { count: 0, avgLatency: 0 };
     const r = stats.perRoute[route];
     r.avgLatency = (r.avgLatency * r.count + duration) / (r.count + 1);
@@ -552,6 +588,7 @@ app.use((req, res, next) => {
 
   next();
 });
+
 app.get("/api/ping", (req, res) => {
   setTimeout(() => {
     res.json({ pong: true, time: new Date().toISOString() });
