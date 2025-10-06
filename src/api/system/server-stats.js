@@ -5,11 +5,14 @@ const moment = require("moment");
 module.exports = function (app, prefix = "") {
   app.get(`${prefix}/system/stats`, async (req, res) => {
     try {
-      const uptimeSeconds = Math.floor((Date.now() - global.serverStartTime.getTime()) / 1000);
+      // ✅ Pastikan nilai default selalu ada
+      const startTime = global.serverStartTime || new Date();
+      const uptimeSeconds = Math.floor((Date.now() - startTime.getTime()) / 1000);
+
       const uptimeText = formatDuration(uptimeSeconds);
 
       osUtils.cpuUsage(cpuPercent => {
-        const stats = {
+        res.json({
           status: true,
           platform: os.platform(),
           arch: os.arch(),
@@ -18,10 +21,9 @@ module.exports = function (app, prefix = "") {
           memoryUsed: `${((os.totalmem() - os.freemem()) / 1024 / 1024).toFixed(1)} MB`,
           memoryTotal: `${(os.totalmem() / 1024 / 1024).toFixed(1)} MB`,
           uptimeText,
-          startedAt: moment(global.serverStartTime).format("YYYY-MM-DD HH:mm:ss"),
+          startedAt: moment(startTime).format("YYYY-MM-DD HH:mm:ss"),
           timestamp: moment().format("YYYY-MM-DD HH:mm:ss")
-        };
-        res.json(stats);
+        });
       });
     } catch (err) {
       res.status(500).json({ status: false, message: err.message });
@@ -29,12 +31,10 @@ module.exports = function (app, prefix = "") {
   });
 };
 
-// 🧠 Fungsi untuk ubah detik ke format hari, jam, menit, detik
 function formatDuration(seconds) {
   const days = Math.floor(seconds / 86400);
   const hours = Math.floor((seconds % 86400) / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
   const secs = seconds % 60;
-
   return `${days > 0 ? days + " hari, " : ""}${hours} jam, ${minutes} menit, ${secs} detik`;
 }
