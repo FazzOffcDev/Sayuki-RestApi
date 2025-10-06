@@ -273,7 +273,7 @@
         {
     "name": "Capcut Downloader",
     "desc": "Download video dari Capcut Template dengan mudah.",
-    "path": "/api/download/capcut?url=",
+    "path": "/endpoint/download/capcut?url=",
     "innerDesc": "Gunakan ?url= untuk link Capcut."
   },
   {
@@ -453,7 +453,7 @@
 {
           "name": "Catbox Photo Uploader",
           "desc": "Unggah foto/file ke Catbox.moe (POST).",
-          "path": "/api/upload/catbox?fileToUpload=",
+          "path": "/endpoint/upload/catbox?fileToUpload=",
           "method": "POST",
       "isImage": true 
         },
