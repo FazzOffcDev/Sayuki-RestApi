@@ -280,12 +280,12 @@
           </div>
         </div>
         <div class="col-6 col-md-3 mb-4">
-          <div class="stat-card">
-            <i class="bi bi-activity h3 text-info"></i>
-            <h6 class="mt-2">Uptime</h6>
-            <p class="h5" id="serverUptime">--</p>
-            <p class="small text-muted">Waktu Aktif</p>
-          </div>
+<div class="stat-card">
+  <h3>🕒 Server Uptime</h3>
+  <p id="uptime-text">Loading...</p>
+  <p><small>Started at: <span id="uptime-start"></span></small></p>
+</div>
+
         </div>
         <div class="col-6 col-md-3 mb-4">
           <div class="stat-card">
@@ -442,7 +442,13 @@
   <script>
     const socket = io();
     const streamContainer = document.getElementById('streamContainer');
-
+fetch("/endpoint/system/stats")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("uptime-text").innerText = data.uptimeText;
+    document.getElementById("uptime-start").innerText = data.startedAt;
+  });
+  
     socket.on("api_request", (data) => {
       const div = document.createElement('div');
       let colorClass = "status-ok";
