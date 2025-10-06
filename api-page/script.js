@@ -196,8 +196,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const loadingScreen = document.getElementById("loadingScreen");
   const body = document.body;
   body.classList.add("no-scroll");
-   tickAll();
-  setInterval(tickAll, HEALTH_CHECKS_POLL_MS);
   // Inisialisasi Uptime Counter
   const startTime = Date.now();
   setInterval(() => {

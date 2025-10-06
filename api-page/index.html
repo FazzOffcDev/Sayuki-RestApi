@@ -221,40 +221,6 @@
   box-shadow: 0 0 30px rgba(211, 255, 0, 0.8);
   transform: scale(1.05);
 }
-.uptime-card {
-  background: rgba(20, 20, 20, 0.6);
-  border: 1px solid rgba(0, 255, 255, 0.3);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  padding: 20px;
-  width: 320px;
-  color: #fff;
-  font-family: "Poppins", sans-serif;
-  transition: 0.3s ease-in-out;
-}
-
-.uptime-card:hover {
-  box-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
-  transform: scale(1.02);
-}
-
-.uptime-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.uptime-header .icon {
-  font-size: 1.5em;
-}
-
-.uptime-body p {
-  margin: 5px 0;
-  font-size: 1rem;
-}
-
   </style>
 </head>
 <body>
@@ -315,6 +281,14 @@
         </div>
         <div class="col-6 col-md-3 mb-4">
           <div class="stat-card">
+            <i class="bi bi-activity h3 text-info"></i>
+            <h6 class="mt-2">Uptime</h6>
+            <p class="h5" id="serverUptime">--</p>
+            <p class="small text-muted">Waktu Aktif</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+          <div class="stat-card">
             <i class="bi bi-diagram-3-fill h3 text-primary"></i>
             <h6 class="mt-2">Total API Endpoint</h6>
             <p class="h5" id="totalApi">--</p>
@@ -353,18 +327,8 @@
             </div>
         </div>
 
-      
-
-
-
-      <div class="col-12">
-        <h5 class="mt-4">Realtime Status Timeline</h5>
-        <div id="timelineContainer" class="stat-card mt-2" style="max-height:320px; overflow:auto;"></div>
-      </div>
 
       <div class="col-12 mt-3">
-        <h6 class="small-muted">Note</h6>
-        <p class="small-muted">Health checks run every 30s. If deploying to remote host, set env <code>SELF_HOST</code> to your public base URL so checks target correct address.</p>
       </div>
     </div>
     <h3 class="category-header mt-4">Smart Insight Panel 💡</h3>
@@ -380,6 +344,14 @@
       <div class="flags-display mt-3 small text-muted">Memuat data negara...</div>
     </div>
 
+
+  <div class="hud-grid"></div>
+
+  <div class="hud-panel" id="streamPanel">
+    <div class="hud-title"> Live Request Stream</div>
+    <div id="streamContainer"></div>
+  </div>
+  
 <div class="col-12"> <div class="stat-card">
 
         <h5>Request History</h5>
@@ -460,13 +432,7 @@
   <script>
     const socket = io();
     const streamContainer = document.getElementById('streamContainer');
-fetch("/endpoint/system/stats")
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("uptime-text").innerText = data.uptimeText;
-    document.getElementById("uptime-start").innerText = data.startedAt;
-  });
-  
+
     socket.on("api_request", (data) => {
       const div = document.createElement('div');
       let colorClass = "status-ok";
