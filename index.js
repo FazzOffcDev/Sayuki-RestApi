@@ -411,15 +411,6 @@ async function runAllChecks() {
 
 // Start periodic checks
 let healthIntervalHandle = null;
-function startHealthScheduler() {
-  // initial run
-  runAllChecks().catch(e => console.warn("initial health checks failed:", e));
-  // schedule
-  healthIntervalHandle = setInterval(() => {
-    runAllChecks().catch(e => console.warn("health check cycle failed:", e));
-  }, HEALTH_CHECK_INTERVAL_MS);
-}
-startHealthScheduler();
 
 // --------------------
 // Health API endpoints
