@@ -528,19 +528,9 @@ app.use((req, res, next) => {
   stats.globalUsage[countryCode]++;
 
   res.on("finish", () => {
-    stats.requests++;
     const duration = Date.now() - start;
     const statusCode = res.statusCode;
     const route = req.path.split("?")[0];
-    const latency = Date.now() - start;
-
-    io.emit("api_request", {
-      method: req.method,
-      path: req.originalUrl,
-      status: res.statusCode,
-      latency,
-      timestamp: new Date().toISOString()
-    });
 
     const color =
       statusCode >= 500 ? "bgRed" :
@@ -556,27 +546,13 @@ app.use((req, res, next) => {
       chalk.magenta(` - ${duration}ms`)
     );
 
-    // ✅ Statistik
     if (statusCode < 400) stats.success++;
-    else {
-      stats.error++;
-      if (statusCode >= 500) {
-        sendTelegramNotification(
-          `🚨 <b>Error ${statusCode}</b>\nEndpoint: <b>${req.originalUrl}</b>\nCountry: <b>${countryName}</b>`
-        );
-      }
+    else stats.error++;
+
+    if (stats.requests % 100 === 0) {
+      console.log(`📊 Total Requests: ${stats.requests} | ✅ ${stats.success} | ❌ ${stats.error}`);
     }
 
-    // 🕒 Kirim notifikasi ringkasan 1x/minggu
-    const now = Date.now();
-    if (now - lastSummarySent > SUMMARY_INTERVAL) {
-      sendTelegramNotification(
-        `📈 <b>Total Requests:</b> ${stats.requests}\n✅ ${stats.success} | ❌ ${stats.error}\n🕒 Weekly Summary`
-      );
-      lastSummarySent = now;
-    }
-
-    // ⏱ Statistik per route
     if (!stats.perRoute[route]) stats.perRoute[route] = { count: 0, avgLatency: 0 };
     const r = stats.perRoute[route];
     r.avgLatency = (r.avgLatency * r.count + duration) / (r.count + 1);
@@ -585,6 +561,7 @@ app.use((req, res, next) => {
 
   next();
 });
+
 
 app.get("/api/ping", (req, res) => {
   setTimeout(() => {
