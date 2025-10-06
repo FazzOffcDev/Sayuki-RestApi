@@ -221,9 +221,6 @@ async function sendTelegramAlert(message) {
 
 console.log("🤖 Sayuki Telegram Bot v2 active.");
 
-
-const axios = require("axios");
-
 // Ganti ini dengan token & chat ID milik kamu
 // 🧩 Queue untuk menampung pesan
 let telegramQueue = [];
