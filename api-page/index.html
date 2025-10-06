@@ -221,6 +221,40 @@
   box-shadow: 0 0 30px rgba(211, 255, 0, 0.8);
   transform: scale(1.05);
 }
+.uptime-card {
+  background: rgba(20, 20, 20, 0.6);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 20px;
+  width: 320px;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  transition: 0.3s ease-in-out;
+}
+
+.uptime-card:hover {
+  box-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
+  transform: scale(1.02);
+}
+
+.uptime-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.uptime-header .icon {
+  font-size: 1.5em;
+}
+
+.uptime-body p {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
   </style>
 </head>
 <body>
@@ -279,13 +313,16 @@
             <p class="small text-muted">Health</p>
           </div>
         </div>
-        <div class="col-6 col-md-3 mb-4">
-<div class="stat-card">
-  <h3>🕒 Server Uptime</h3>
-  <p id="uptime-text">Loading...</p>
-  <p><small>Started at: <span id="uptime-start"></span></small></p>
+<div class="uptime-card">
+  <div class="uptime-header">
+    <span class="icon">🕒</span>
+    <h3>Server Uptime</h3>
+  </div>
+  <div class="uptime-body">
+    <p id="uptime-text">Loading...</p>
+    <p><small>🚀 Started at: <span id="uptime-start">Loading...</span></small></p>
+  </div>
 </div>
-
         </div>
         <div class="col-6 col-md-3 mb-4">
           <div class="stat-card">

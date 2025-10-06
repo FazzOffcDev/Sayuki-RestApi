@@ -95,6 +95,29 @@ function makeHealthCardHtml(ep) {
     </div>
   `;
 }
+async function loadUptime() {
+  try {
+    const res = await fetch("/api/system/stats");
+    const data = await res.json();
+
+    if (data.status) {
+      const uptimeText = document.getElementById("uptime-text");
+      const uptimeStart = document.getElementById("uptime-start");
+
+      uptimeText.textContent = data.uptimeText;
+      uptimeStart.textContent = data.startedAt;
+
+      uptimeText.style.textShadow = "0 0 10px cyan";
+      setTimeout(() => (uptimeText.style.textShadow = "none"), 600);
+    }
+  } catch (err) {
+    console.error("Failed to load uptime:", err);
+  }
+}
+
+// ⏱ Update tiap 5 detik
+loadUptime();
+setInterval(loadUptime, 15000);
 
 function makeUptimeItemHtml(u) {
   const percText = u.uptimePercent !== null && u.uptimePercent !== undefined ? `${u.uptimePercent}%` : 'n/a';
