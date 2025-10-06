@@ -537,17 +537,6 @@ app.use((req, res, next) => {
       chalk.magenta(` - ${duration}ms`)
     );
 
-    if (statusCode < 400) stats.success++;
-    else stats.error++;
-
-    if (stats.requests % 100 === 0) {
-      console.log(`📊 Total Requests: ${stats.requests} | ✅ ${stats.success} | ❌ ${stats.error}`);
-    }
-
-    if (!stats.perRoute[route]) stats.perRoute[route] = { count: 0, avgLatency: 0 };
-    const r = stats.perRoute[route];
-    r.avgLatency = (r.avgLatency * r.count + duration) / (r.count + 1);
-    r.count++;
   });
 
   next();
