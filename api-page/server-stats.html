@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Server Statistics & Analytics | Sayuki Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at top, #04121f, #000);
+      color: #00eaff;
+      margin: 0; padding: 0;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 20px;
+      background: rgba(0, 40, 80, 0.3);
+      border: 1px solid rgba(0,255,255,0.3);
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(0,255,255,0.1);
+      backdrop-filter: blur(10px);
+    }
+    h1 {
+      text-align: center;
+      color: #00eaff;
+      text-shadow: 0 0 15px #00eaff;
+      margin-bottom: 30px;
+    }
+    .stat-box {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+    .stat-box span {
+      color: #fff;
+    }
+    canvas {
+      margin-top: 30px;
+      background: rgba(0,255,255,0.05);
+      border-radius: 10px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📊 Server Statistics & Analytics</h1>
+
+    <div id="statsContainer">
+      <div class="stat-box"><strong>Hostname:</strong> <span id="hostname">Loading...</span></div>
+      <div class="stat-box"><strong>Platform:</strong> <span id="platform"></span></div>
+      <div class="stat-box"><strong>Uptime:</strong> <span id="uptime"></span></div>
+      <div class="stat-box"><strong>CPU Load:</strong> <span id="cpuLoad"></span></div>
+      <div class="stat-box"><strong>Memory Usage:</strong> <span id="memUsage"></span></div>
+      <div class="stat-box"><strong>Disk Usage:</strong> <span id="diskUsage"></span></div>
+    </div>
+
+    <canvas id="cpuChart" height="100"></canvas>
+    <canvas id="memChart" height="100"></canvas>
+  </div>
+
+  <script>
+    let cpuChart, memChart;
+
+    async function fetchStats() {
+      const res = await fetch('/api/system/stats');
+      const json = await res.json();
+      if (!json.status) return;
+      const d = json.data;
+
+      document.getElementById('hostname').textContent = d.hostname;
+      document.getElementById('platform').textContent = d.platform;
+      document.getElementById('uptime').textContent = d.uptimeReadable;
+      document.getElementById('cpuLoad').textContent = `${d.cpuLoad["1min"]} / ${d.cpuLoad["5min"]} / ${d.cpuLoad["15min"]}`;
+      document.getElementById('memUsage').textContent = `${d.memory.usagePercent}%`;
+      document.getElementById('diskUsage').textContent = `${d.disk.usagePercent}%`;
+
+      updateCharts(d.memory.usagePercent, d.cpuLoad["1min"]);
+    }
+
+    function updateCharts(memPercent, cpuLoad) {
+      const timeLabel = new Date().toLocaleTimeString();
+
+      if (!cpuChart) {
+        const ctx1 = document.getElementById('cpuChart').getContext('2d');
+        cpuChart = new Chart(ctx1, {
+          type: 'line',
+          data: { labels: [], datasets: [{ label: 'CPU Load (1min)', data: [], borderColor: '#00eaff', borderWidth: 2 }] },
+          options: { scales: { y: { min: 0 } }, animation: false }
+        });
+      }
+
+      if (!memChart) {
+        const ctx2 = document.getElementById('memChart').getContext('2d');
+        memChart = new Chart(ctx2, {
+          type: 'line',
+          data: { labels: [], datasets: [{ label: 'Memory Usage %', data: [], borderColor: '#00ff9c', borderWidth: 2 }] },
+          options: { scales: { y: { min: 0, max: 100 } }, animation: false }
+        });
+      }
+
+      cpuChart.data.labels.push(timeLabel);
+      cpuChart.data.datasets[0].data.push(cpuLoad);
+      memChart.data.labels.push(timeLabel);
+      memChart.data.datasets[0].data.push(memPercent);
+
+      if (cpuChart.data.labels.length > 20) {
+        cpuChart.data.labels.shift();
+        cpuChart.data.datasets[0].data.shift();
+        memChart.data.labels.shift();
+        memChart.data.datasets[0].data.shift();
+      }
+
+      cpuChart.update();
+      memChart.update();
+    }
+
+    setInterval(fetchStats, 5000); // update tiap 5 detik
+    fetchStats();
+  </script>
+</body>
+</html>

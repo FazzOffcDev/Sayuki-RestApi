@@ -1,0 +1,476 @@
+{
+  "name": "Sayuki Rest Api",
+  "version": "Sayuki - Apis",
+  "description": "Simple and Easy-to-Use API Documentation",
+  "header": {
+    "status": "Online!",
+    "imageSrc": [
+      "https://files.catbox.moe/9dcyt4.gif"
+    ],
+    "imageSize": {
+      "mobile": "80%",
+      "tablet": "40%",
+      "desktop": "40%"
+    }
+  },
+  "apiSettings": {
+    "creator": "FazzCodex"
+  },
+  "links": [
+    {
+      "name": "Source Code",
+      "url": ""
+    },
+    {
+      "name": "Contact Me",
+      "url": ""
+    }
+  ],
+  "categories": [
+      {
+      "name": "System Insight",
+      "items": [
+        {
+          "name": "Smart Insight Panel",
+          "desc": "Menampilkan statistik cerdas seperti top endpoint, success rate, dan negara paling aktif.",
+          "path": "/stats/insight",
+          "innerDesc": "Endpoint ini memberikan ringkasan data API dalam bentuk analitik pintar.",
+          "method": "GET"
+        },
+        {
+          "name": "Global Map View",
+          "desc": "Menampilkan 5 negara teratas yang paling aktif menggunakan API.",
+          "path": "/stats/live/globalUsage",
+          "innerDesc": "Gunakan endpoint ini untuk memvisualisasikan traffic API berdasarkan negara.",
+          "method": "GET"
+        },
+        {
+  "name": "Server Statistics & Analytics",
+  "desc": "Menampilkan statistik server secara real-time seperti CPU, RAM, Disk, dan uptime dalam bentuk visual Chart.js.",
+  "path": "/server-stats",
+  "innerDesc": "Halaman ini menampilkan status server dalam waktu nyata — CPU load (1m/5m/15m), penggunaan memori dan disk, uptime, serta grafik performa yang diperbarui otomatis setiap 5 detik. Data diambil dari endpoint /api/system/stats."
+}
+        ]
+        },
+  {
+  "name": "AI (Artificial Intelligence)",
+  "items": [
+    {
+      "name": "AI Chat",
+      "desc": "Simple AI chat with ChatAi",
+      "path": "/endpoint/ai/chat?text=",
+      "innerDesc": "Gunakan query ?text= untuk memasukkan pesan"
+    },
+{
+    "name": "AI GPT-3",
+    "desc": "Interaksi dengan model GPT-3 menggunakan sistem prompt dan input user.",
+    "path": "/api/ai/gpt3?prompt=&content=",
+    "innerDesc": "Gunakan query ?prompt= untuk sistem prompt dan ?content= untuk pesan user."
+  },
+    {
+          "name": "Claude 3.5 Haiku",
+          "desc": "Chat dan Analisis Gambar menggunakan Claude 3.5 Haiku (Image-to-Text didukung).",
+          "path": "/api/ai/claude/3.5-haiku?text=hallo&systemPrompt=kamu adalah asisten yang ramah dan sopan , serta singkat dalam membalas&imageUrl=" 
+        },
+    {
+      "name": "AI Image (Animagine XL-3.1)",
+      "desc": "Generate gambar anime dengan AI",
+      "path": "/endpoint/ai/animagine?prompt=&ratio=",
+      "innerDesc": "Gunakan ?prompt= untuk deskripsi gambar dan opsional ?ratio= (contoh: 1:1, 16:9)"
+    },
+{
+    "name": "AI MagicStudio",
+    "desc": "Generate AI-powered art from a text prompt.",
+    "path": "/api/ai/magicstudio?prompt=",
+    "innerDesc": "Gunakan query ?prompt= untuk mendeskripsikan gambar yang ingin dibuat (contoh: ?prompt=portrait%20of%20a%20wizard%20with%20a%20long%20beard)."
+  },
+    {
+  "name": "AI Copilot",
+  "desc": "AI Copilot untuk membantu obrolan dengan jawaban kreatif",
+  "path": "/endpoint/ai/copilot?text=",
+  "innerDesc": "Gunakan ?text= untuk memasukkan pertanyaan atau perintah"
+}
+
+  ]
+},
+{
+  "name": "Canvas",
+  "items": [
+  {
+  "name": "iPhone Chat Bubble",
+  "desc": "Generate gambar chat bubble seperti iMessage/WhatsApp dengan teks custom.",
+  "path": "/api/canvas/chatbubble?text=",
+  "innerDesc": "Gunakan query ?text= untuk menampilkan teks pada gambar chat bubble. Contoh: /api/canvas/chatbubble?text=Hallo%20Sayuki"
+},
+{
+  "name": "iPhone Chat Bubble v2",
+  "desc": "Membuat gambar chat bubble dengan emoji reaction, profil, jam, dan efek glassmorphism.",
+  "path": "/api/canvas/chatbubblev2?text=",
+  "innerDesc": "Gunakan ?text= untuk isi pesan, ?avatar= untuk gambar profil, dan ?time= untuk jam custom. Contoh: /api/canvas/chatbubblev2?text=Hallo%20Sayuki&avatar=https://i.ibb.co/0mYBq4R/avatar.png"
+},
+{
+  "name": "Instagram Story Generator",
+  "desc": "Buat gambar bergaya Instagram Story dengan background hitam dan teks custom di tengah.",
+  "path": "/api/canvas/igstory?text=",
+  "innerDesc": "Gunakan query ?text= untuk menambahkan teks, ?username= untuk nama pengguna, dan ?avatar= untuk foto profil. Contoh: /api/canvas/igstory?text=Hallo%20Sayuki&username=b4mzciIIIIIII"
+},
+{
+  "name": "Instagram Story Generator v2",
+  "desc": "Buat gambar seperti Instagram Story dengan gradient transparan, blur background, progress bar, dan teks custom.",
+  "path": "/api/canvas/igstoryv2?text=",
+  "innerDesc": "Gunakan query ?text= untuk teks, ?username= untuk nama pengguna, ?avatar= untuk foto profil (URL), dan ?progress= untuk durasi story (0–1)."
+}
+]
+},
+{
+  "name": "Games",
+  "items": [
+    {
+    "name": "Tebak Kata",
+    "desc": "Tebak kata berdasarkan petunjuk unik seperti profesi, tempat, dan benda.",
+    "path": "/endpoint/games/tebakkata",
+    "innerDesc": "Mengambil 1 soal acak dari koleksi tebakkata.json lengkap dengan petunjuk dan jawaban."
+  },
+  {
+    "name": "Susun Kata",
+    "desc": "Susun huruf acak menjadi kata yang benar sesuai kategori.",
+    "path": "/endpoint/games/susunkata",
+    "innerDesc": "Kembalikan kata dari huruf acak seperti puzzle anagram — cocok untuk melatih logika dan kosa kata."
+  },
+  {
+    "name": "Tebak Gambar",
+    "desc": "Tebak frasa dari gambar lucu dan simbol kreatif.",
+    "path": "/endpoint/games/tebakgambar",
+    "innerDesc": "Kembalikan satu soal acak dengan gambar (URL) dan deskripsi untuk ditebak pengguna."
+  },
+  {
+    "name": "Tebak Kimia",
+    "desc": "Uji pengetahuan kimia kamu dengan menebak lambang unsur!",
+    "path": "/endpoint/games/tebakkimia",
+    "innerDesc": "endpoint ini mengembalikan soal acak dari daftar unsur kimia, seperti ‘Emas = ?’ → Jawaban: Au."
+  },
+  {
+    "name": "Tebak Bendera",
+    "desc": "Tebak negara berdasarkan emoji bendera yang muncul.",
+    "path": "/endpoint/games/tebakbendera",
+    "innerDesc": "Setiap request mengembalikan 1 emoji bendera dan nama negaranya dalam bentuk JSON."
+  },
+  {
+    "name": "Asah Otak",
+    "desc": "Kuis logika cepat untuk mengasah kecerdasan dan pengetahuan umum.",
+    "path": "/endpoint/games/asahotak",
+    "innerDesc": "Dapatkan soal acak berbentuk teka-teki lucu dan edukatif dengan jawaban yang tidak terduga."
+  }
+  ]
+  },
+{
+  "name": "Informasi",
+  "items": [
+    {
+      "name": "Weather Forecast (10 Hari)",
+      "desc": "Mendapatkan prakiraan cuaca 10 hari lengkap dari AccuWeather untuk kota tertentu.",
+      "path": "/endpoint/info/weather/?city=jakarta", 
+      "method": "GET"
+    }
+  ]
+},
+{
+      "name": "Social Media Stalker",
+      "items": [
+        {
+          "name": "GitHub Profile Stalker",
+          "desc": "Mengambil detail profil lengkap (repo, followers, bio) dari pengguna GitHub.",
+          "path": "/endpoint/stalk/github?user=", 
+          "method": "GET"
+        },
+        {
+      "name": "TikTok Profile Stalker",
+      "desc": "Mengambil detail profil, statistik, dan informasi pengguna TikTok.",
+      "path": "/endpoint/stalk/tiktok?username=therock", 
+      "method": "GET"
+    },
+        {
+      "name": "Instagram Profile Stalker",
+      "desc": "Mengambil detail profil dan 12 postingan terbaru dari pengguna Instagram.",
+      "path": "/endpoint/stalk/instagram?username=google", 
+      "method": "GET"
+    }
+      ]
+    },
+    {
+      "name": "Search Tools",
+      "items": [
+        {
+          "name": "YouTube",
+          "desc": "Video search",
+          "path": "/endpoint/search/youtube?q=fazzcodex"
+        },
+        {
+      "name": "TikTok Video Search",
+      "desc": "Mencari video TikTok berdasarkan kata kunci dan memberikan link video/musik.",
+      "path": "/endpoint/search/tiktok?q=anjay", 
+      "method": "GET"
+    },
+    {
+      "name": "Spotify Track Search",
+      "desc": "Mencari lagu/track di Spotify berdasarkan kata kunci.",
+      "path": "/endpoint/search/spotify?q=dont+you+remember", 
+      "method": "GET"
+    },
+        {
+      "name": "Stickerly Search",
+      "desc": "Mencari paket stiker dari aplikasi Stickerly.",
+      "path": "/endpoint/search/stickerly?q=sayuki", 
+      "method": "GET"
+    },
+        {
+      "name": "Pinterest Image Search",
+      "desc": "Mencari gambar di Pinterest berdasarkan kata kunci.",
+      "path": "/endpoint/search/pinterest?q=sayuki", 
+      "method": "GET"
+    },
+    {
+      "name": "S-File Search",
+      "desc": "Mencari file di situs S-File berdasarkan kata kunci.",
+      "path": "/endpoint/search/sfile?q=pou", 
+      "method": "GET"
+    },
+        {
+      "name": "Android1 App Search",
+      "desc": "Mencari aplikasi Android, termasuk versi mod, dari Android1.",
+      "path": "/endpoint/search/android1?q=pou", 
+      "method": "GET"
+    },
+    {
+      "name": "GitHub Repository Search",
+      "desc": "Mencari repositori (repo) di GitHub berdasarkan kata kunci.",
+      "path": "/endpoint/search/github?q=FazzCodex", 
+      "method": "GET"
+    },
+    {
+      "name": "F-Droid App Search",
+      "desc": "Mencari aplikasi open-source dari F-Droid.",
+      "path": "/endpoint/search/fdroid?q=hackbar", 
+      "method": "GET"
+    },
+    {
+      "name": "APKPure App Search",
+      "desc": "Mencari aplikasi Android dari APKPure.",
+      "path": "/endpoint/search/apkpure?q=pou", 
+      "method": "GET"
+    }
+      ]
+    },
+    {
+      "name": "Downloader",
+      "items": [
+      {
+  "name": "Spotify Downloader",
+  "desc": "Cari lagu di Spotify dan download sebagai MP3",
+  "path": "/endpoint/download/spotify?q=",
+  "innerDesc": "Gunakan ?q= untuk judul atau nama lagu"
+},
+        {
+    "name": "Capcut Downloader",
+    "desc": "Download video dari Capcut Template dengan mudah.",
+    "path": "/api/download/capcut?url=",
+    "innerDesc": "Gunakan ?url= untuk link Capcut."
+  },
+  {
+  "name": "Instagram Downloader",
+  "desc": "Download reel/video/foto dari Instagram",
+  "path": "/endpoint/download/instagram?url=",
+  "innerDesc": "Gunakan ?url= untuk link Instagram (reel, video, post)"
+},
+{
+  "name": "MediaFire Downloader",
+  "desc": "Ambil direct link file dari MediaFire",
+  "path": "/endpoint/download/mediafire?url=",
+  "innerDesc": "Gunakan ?url= dengan link MediaFire"
+},
+{
+      "name": "AN1 Downloader",
+      "desc": "Mendapatkan link unduhan langsung beserta detail dari halaman aplikasi AN1.com.",
+      "path": "/endpoint/download/android1?url=https://an1.com/4454-construction-simulator-2-mod.html", 
+      "method": "GET"
+    },
+        {
+          "name": "Google Drive Downloader",
+          "desc": "Download file dari Google Drive",
+          "path": "/endpoint/download/gdrive?id=",
+          "innerDesc": "Gunakan ?id= untuk ID file Google Drive"
+        },
+        {
+          "name": "SFile Downloader",
+          "desc": "Download file dari SFile",
+          "path": "/endpoint/download/sfile?url=",
+          "innerDesc": "Gunakan ?url= untuk link SFile"
+        },
+      {
+      "name": "YouTube MP4 Downloader",
+      "desc": "Download YouTube video ke MP4",
+      "path": "/endpoint/download/ytmp4?url=",
+      "innerDesc": "Gunakan ?url= untuk link YouTube dan opsional ?title= untuk judul file"
+    },
+    {
+      "name": "YouTube MP3 Downloader",
+      "desc": "Download audio YouTube (MP3)",
+      "path": "/endpoint/download/ytmp3?url=",
+      "innerDesc": "Gunakan ?url= sebagai link video YouTube"
+    },
+{
+          "name": "TikTok Downloader",
+          "desc": "Download video dan foto TikTok tanpa watermark.",
+          "path": "/endpoint/download/tiktok?url=",
+         "innerDesc": "Gunakan parameter ?url= untuk link video TikTok"
+        },
+        {
+          "name": "Snack Video Downloader",
+          "desc": "Download video Snack Video (Kwaii) tanpa watermark.",
+          "path": "/endpoint/download/snackvideo?url=https://s.snackvideo.com/p/dwlMd51U" 
+        },
+        {
+          "name": "GitHub Repo Downloader",
+          "desc": "Mengunduh seluruh repository GitHub sebagai file ZIP.",
+          "path": "/endpoint/download/github-repo?url=https://github.com/expressjs/express" 
+        },
+    {
+      "name": "Facebook Video Downloader",
+      "desc": "Download video dari Facebook",
+      "path": "/endpoint/download/facebook?url=",
+      "innerDesc": "Gunakan ?url= untuk link video Facebook"
+    },
+    {
+          "name": "Videy Downloader",
+          "desc": "Mengunduh video dari layanan Videy.",
+          "path": "/download/videy?url=https://xn--vdey-5pa.co/v/?id=pBBgOImP1",
+          "method": "GET"
+        },
+        {
+          "name": "Twitter/X Downloader",
+          "desc": "Download video dari Twitter/X",
+          "path": "/endpoint/downloader/x-twitter?url="
+        }
+      ]
+    },
+    {
+  "name": "Random",
+  "items": [
+    {
+      "name": "Akira Pictures",
+      "desc": "Mengambil Gambar Akira Secara Acak.",
+      "path": "/endpoint/image/random", 
+      "method": "GET"
+    },
+        {
+      "name": "Akiyama Pictures",
+      "desc": "Mengambil Gambar akiyama Secara Acak.",
+      "path": "/endpoint/image/akiyama", 
+      "method": "GET"
+    },
+        {
+      "name": "Kagura Pictures",
+      "desc": "Mengambil Gambar Kagura Secara Acak.",
+      "path": "/endpoint/image/kagura", 
+      "method": "GET"
+    },
+        {
+      "name": "Kakasih Pictures",
+      "desc": "Mengambil Gambar Kakasih Secara Acak.",
+      "path": "/endpoint/image/kakasih", 
+      "method": "GET"
+    },
+        {
+      "name": "Kaguya Pictures",
+      "desc": "Mengambil Gambar Kaguya Secara Acak.",
+      "path": "/endpoint/image/kaguya", 
+      "method": "GET"
+    },
+        {
+      "name": "Ana Pictures",
+      "desc": "Mengambil Gambar Ana Secara Acak.",
+      "path": "/endpoint/image/ana", 
+      "method": "GET"
+    },
+        {
+      "name": "Itachi Pictures",
+      "desc": "Mengambil Gambar itachi Secara Acak.",
+      "path": "/endpoint/image/itachi", 
+      "method": "GET"
+    },
+        {
+      "name": "Emilia Pictures",
+      "desc": "Mengambil Gambar Emilia Secara Acak.",
+      "path": "/endpoint/image/emilia", 
+      "method": "GET"
+    },
+        {
+      "name": "Asuna Pictures",
+      "desc": "Mengambil Gambar Asuna Secara Acak.",
+      "path": "/endpoint/image/asuna", 
+      "method": "GET"
+    },
+        {
+      "name": "Hinata Pictures",
+      "desc": "Mengambil Gambar Hinata Secara Acak.",
+      "path": "/endpoint/image/hinata", 
+      "method": "GET"
+    },
+        {
+      "name": "Isuzu Pictures",
+      "desc": "Mengambil Gambar Isuzu Secara Acak.",
+      "path": "/endpoint/image/isuzu", 
+      "method": "GET"
+    },
+        {
+      "name": "Inori Pictures",
+      "desc": "Mengambil Gambar Inori Secara Acak.",
+      "path": "/endpoint/image/inori", 
+      "method": "GET"
+    }
+  ]
+},
+    {
+      "name": "Tools",
+      "items": [
+        {
+          "name": "Remove Background",
+          "desc": "Hapus background dari gambar via link",
+          "path": "/endpoint/tools/removebg?url="
+        },
+        {
+"name": "Free Proxy List",
+"desc": "Ambil daftar proxy publik (live)",
+"path": "/endpoint/tools/free-proxy",
+"innerDesc": "GET tanpa parameter — mengembalikan array proxy (ip, port, country, anonymity, https, last)."
+},
+{
+          "name": "Brat Image Generator",
+          "desc": "Membuat gambar meme 'Brat' dengan teks kustom.",
+          "path": "/endpoint/tools/brat?text=hallo", 
+          "method": "GET"
+        },
+{
+          "name": "Catbox Photo Uploader",
+          "desc": "Unggah foto/file ke Catbox.moe (POST).",
+          "path": "/api/upload/catbox?fileToUpload=",
+          "method": "POST",
+      "isImage": true 
+        },
+        {
+      "name": "Meme Generator",
+      "desc": "Membuat meme dengan teks atas dan bawah dari URL gambar.",
+      "path": "/endpoint/tools/meme?imageUrl=https://files.catbox.moe/uyv8dj.png&textT=Hallo&textB=Jembut", 
+      "method": "GET",
+      "isImage": true 
+    },
+    {
+      "name": "Image Upscaler (2x)",
+      "desc": "Meningkatkan resolusi gambar dari link hingga 2 kali lipat.",
+      "path": "/endpoint/tools/upscale?imageUrl=https://files.catbox.moe/uyv8dj.png&scale=2", 
+      "method": "GET"
+    }
+      ]
+    }
+  ]
+}

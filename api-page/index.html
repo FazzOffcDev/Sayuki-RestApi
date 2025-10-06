@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/src/icon.jpg" type="image/jpg">
+  <title id="page"></title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <style>
+    .stat-card {
+        padding: 15px;
+        border-radius: 10px;
+        background-color: #1a1a1a;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s;
+        height: 100%;
+    }
+    .stat-card:hover {
+        transform: translateY(-3px);
+    }
+    .text-monospace {
+        font-family: monospace;
+    }
+    .api-card {
+      background: rgba(30,30,30,0.8);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 15px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .timeline-card {
+  transition: all 0.2s ease;
+}
+.timeline-card:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-1px);
+}
+
+    .api-card:hover {
+        border-color: #0d6efd;
+        box-shadow: 0 0 10px rgba(13, 110, 253, 0.5);
+    }
+/* ===================================== */
+/* STYLES BARU EFEK LOADING (PULSE & FLOW) */
+/* ===================================== */
+
+/* Dasar Loading Screen (Background Tetap Sama) */
+#loadingScreen {
+    position: fixed;
+    inset: 0;
+    background: #000000; 
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #fff;
+    /* Efek Grid subtle di background */
+    background-image: linear-gradient(to right, #111 1px, transparent 1px),
+                      linear-gradient(to bottom, #111 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.spinner-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Memberi sedikit perspektif (opsional) */
+    transform: perspective(800px); 
+}
+
+/* ------------------ */
+/* 1. HORIZONTAL PLASMA FLOW BAR */
+/* ------------------ */
+
+.loading-bar {
+    width: 350px; /* Lebar bar lebih besar */
+    height: 12px; /* Tinggi bar */
+    background: rgba(0, 234, 255, 0.1); /* Background tipis transparan */
+    overflow: hidden;
+    position: relative;
+    border-radius: 6px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(0, 234, 255, 0.3);
+}
+
+/* Bar Scanner yang bergerak */
+.loading-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30%; /* Lebar segmen flow */
+    height: 100%;
+    /* Gradien untuk kesan aliran plasma */
+    background: linear-gradient(90deg, transparent, #00eaff, #ff0077, #00eaff, transparent);
+    box-shadow: 0 0 15px #00eaff;
+    border-radius: 6px;
+    /* Animasi aliran yang lebih panjang dan halus: 8 detik */
+    animation: flow-scan 8s infinite linear; 
+}
+
+/* Animasi Pergerakan Horizontal */
+@keyframes flow-scan {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(450%); } /* Menggerakkan segmen dari kiri ke kanan */
+}
+
+
+/* ------------------ */
+/* 2. PULSATING NEON TEXT (PENGGANTI GLITCH) */
+/* ------------------ */
+
+.glitch-text {
+    font-family: 'Poppins', sans-serif; /* Menggunakan font utama */
+    color: #fff; 
+    font-size: 1.5rem;
+    letter-spacing: 8px; /* Lebih lebar untuk kesan digital */
+    margin-top: 25px;
+    text-transform: uppercase;
+    position: relative;
+    /* Animasi neon pulse, durasi 10 detik */
+    animation: pulse-neon 10s infinite linear alternate;
+}
+
+/* Hapus elemen Glitch yang tidak perlu */
+.glitch-text::before,
+.glitch-text::after {
+    content: none; 
+}
+
+@keyframes pulse-neon {
+  0%, 100% {
+    color: #fff;
+    /* Neon Blue Shadow */
+    text-shadow: 0 0 4px #00eaff, 0 0 15px #00eaff, 0 0 25px rgba(0, 234, 255, 0.5);
+    opacity: 1;
+  }
+  50% {
+    color: #ff0077; 
+    /* Neon Pink Shadow */
+    text-shadow: 0 0 2px #ff0077, 0 0 10px #ff0077, 0 0 20px rgba(255, 0, 119, 0.4);
+    opacity: 0.9;
+  }
+}
+.text-glow {
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  text-shadow: 0 0 10px #00eaff, 0 0 25px #00eaff, 0 0 45px rgba(0, 234, 255, 0.5);
+  animation: pulseText 4s infinite alternate ease-in-out;
+}
+@keyframes pulseText {
+  0% { opacity: 0.8; text-shadow: 0 0 10px #00eaff, 0 0 25px #00eaff; }
+  100% { opacity: 1; text-shadow: 0 0 25px #ff0077, 0 0 45px #00eaff; }
+}
+    .health-good { border-left: 6px solid #28a745; }
+    .health-warn { border-left: 6px solid #ffc107; }
+    .health-bad { border-left: 6px solid #dc3545; }
+    .latency-small { font-size: 0.95rem; color:#bfefff; }
+    .timeline-item { padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .uptime-bar { height: 10px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow:hidden; }
+    .uptime-fill { height: 100%; background: linear-gradient(90deg,#00eaff,#7b2cff); }
+    .service-status-up { color: #28a745; font-weight:700; }
+    .service-status-degraded { color: #ffc107; font-weight:700; }
+    .service-status-down { color: #dc3545; font-weight:700; }
+    .small-muted { color: rgba(255,255,255,0.5); }
+    .flag-small { width: 26px; height: 18px; border-radius:3px; box-shadow: 0 0 6px rgba(0,0,0,0.6); }
+        .donation-card {
+  background: rgba(206, 255, 0, 0.05);
+  border: 1px solid rgba(236, 255, 0, 0.3);
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(226, 255, 0, 0.15);
+  padding: 25px;
+  margin: 40px auto;
+  max-width: 500px;
+  text-align: center;
+  color: #FFFFFF;
+  font-family: 'Orbitron', sans-serif;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.donation-card:hover {
+  box-shadow: 0 0 35px rgba(216, 255, 0, 0.3), 0 0 60px rgba(251, 255, 0, 0.2);
+  transform: translateY(-4px);
+}
+
+.donation-card h2 {
+  font-size: 1.5rem;
+  text-shadow: 0 0 10px #FFFFFF;
+  margin-bottom: 10px;
+}
+
+.donation-card p {
+  font-size: 1rem;
+  color: #fff;
+  opacity: 0.9;
+  margin-bottom: 20px;
+}
+
+.donate-btn {
+  background: linear-gradient(90deg, #B3C964, #B1BA5B);
+  border: none;
+  border-radius: 50px;
+  color: #000;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 10px 25px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+  transition: all 0.25s ease;
+}
+
+.donate-btn:hover {
+  background: linear-gradient(90deg, #FFF300, #DEFF66CF);
+  box-shadow: 0 0 30px rgba(211, 255, 0, 0.8);
+  transform: scale(1.05);
+}
+  </style>
+</head>
+<body>
+<div id="loadingScreen">
+    <div class="spinner-wrapper">
+      <div class="loading-bar"></div>
+      <p id="loadingText" class="glitch-text" data-text="Sayuki Loading....">Sayuki Loading..</p>
+    </div>
+</div>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-opacity-75 fixed-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <span id="header" class="me-2"></span>
+        <div id="versionHeader" class="badge bg-secondary rounded-pill"></div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#dashboardStats">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="#apiContent">API</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://chat.whatsapp.com/EfGsT6CHGQv6vHWG89YCkw?mode=ems_copy_t">Comunitas</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-5 mt-3"> 
+    <div class="container">
+      
+
+      <div id="nameContainer" class="d-flex flex-wrap align-items-center mb-2">
+        <h1 id="name" class="me-2"></h1>
+        <div id="version" class="badge bg-primary"></div>
+      </div>
+      <p id="description" class="lead mb-3"></p>
+<!-- 💖 Donation Card -->
+<div class="donation-card">
+  <h2>💖 Dukung Pengembangan</h2>
+  <p>Bantu server dan proyek ini tetap berjalan cepat & gratis untuk semua.</p>
+  <button class="donate-btn" onclick="window.open('https://trakteer.id/fazzcodex/tip', '_blank')">
+    💎 Donasi Sekarang
+  </button>
+</div>
+
+      <h3 class="category-header mt-5" id="dashboardStats">Dashboard Statistik</h3>
+
+      <div class="row text-center mt-4">
+        <div class="col-6 col-md-3 mb-4">
+          <div class="stat-card">
+            <i class="bi bi-shield-fill-check h3 text-success"></i>
+            <h6 class="mt-2">Server Status</h6>
+            <p class="h5" id="serverStatus">Checking...</p>
+            <p class="small text-muted">Health</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+          <div class="stat-card">
+            <i class="bi bi-activity h3 text-info"></i>
+            <h6 class="mt-2">Uptime</h6>
+            <p class="h5" id="serverUptime">--</p>
+            <p class="small text-muted">Waktu Aktif</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+          <div class="stat-card">
+            <i class="bi bi-diagram-3-fill h3 text-primary"></i>
+            <h6 class="mt-2">Total API Endpoint</h6>
+            <p class="h5" id="totalApi">--</p>
+            <p class="small text-muted">Routes Available</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+          <div class="stat-card">
+              <i class="bi bi-speedometer2 h3 text-warning"></i>
+              <h6 class="mt-2">Kecepatan API</h6>
+              <p class="h5" id="avgLatencyText">Menghitung...</p>
+              <div id="fastestRoutesList" class="small text-start mx-auto p-2" style="max-width: 150px;">
+                  <span class="text-muted">3 Tercepat dimuat...</span>
+              </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row text-center mt-3">
+        <div class="col-6 col-md-3 mb-4">
+          <div class="stat-card">
+            <i class="bi bi-cloud-arrow-up h3 text-secondary"></i>
+            <h6 class="mt-2">Total Request</h6>
+            <p class="h5" id="totalRequests">--</p>
+            <p class="small text-muted">Semua Request</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <div class="stat-card">
+                <i class="bi bi-bug h3 text-danger"></i>
+                <h6 class="mt-2">Top 3 Error Rate</h6>
+                <p class="h5 mb-0" id="globalErrorRate">0%</p>
+                <div id="errorRoutesList" class="small text-start mx-auto" style="max-width: 150px;">
+                    <span class="text-muted">Rute error dimuat...</span>
+                </div>
+            </div>
+        </div>
+
+      
+
+
+
+      <div class="col-12">
+        <h5 class="mt-4">Realtime Status Timeline</h5>
+        <div id="timelineContainer" class="stat-card mt-2" style="max-height:320px; overflow:auto;"></div>
+      </div>
+
+      <div class="col-12 mt-3">
+        <h6 class="small-muted">Note</h6>
+        <p class="small-muted">Health checks run every 30s. If deploying to remote host, set env <code>SELF_HOST</code> to your public base URL so checks target correct address.</p>
+      </div>
+    </div>
+    <h3 class="category-header mt-4">Smart Insight Panel 💡</h3>
+    <div class="stat-card text-start mb-5">
+      <div id="insightContent">
+        <p class="small text-muted">Memuat insight...</p>
+      </div>
+    </div>
+
+    <h3 class="category-header mt-5">Global Traffic Map 🌍</h3>
+    <div class="stat-card text-center mb-5">
+      <canvas id="worldMap" height="250"></canvas>
+      <div class="flags-display mt-3 small text-muted">Memuat data negara...</div>
+    </div>
+
+
+  <div class="hud-grid"></div>
+
+  <div class="hud-panel" id="streamPanel">
+    <div class="hud-title"> Live Request Stream</div>
+    <div id="streamContainer"></div>
+  </div>
+  
+<div class="col-12"> <div class="stat-card">
+
+        <h5>Request History</h5>
+        <div id="requestHistoryList">
+            <p class="small text-muted mb-0">Memuat histori...</p>
+        </div>
+    </div>
+</div>
+      
+      <h3 class="category-header mt-5" id="apiContent">Daftar API Endpoint</h3>
+      
+      <div id="apiLinks" class="mb-5"></div>
+
+      <input type="text" id="searchInput" class="form-control mb-4" placeholder="Search API...">
+
+      <ul class="nav nav-pills mb-3" id="apiCategoryTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="tab-all" data-bs-toggle="pill" data-bs-target="#content-all" type="button" role="tab" aria-controls="content-all" aria-selected="true">Semua</button>
+        </li>
+      </ul>
+      
+      <div class="tab-content" id="apiContentArea">
+        <div class="tab-pane fade show active" id="content-all" role="tabpanel">
+            <div class="row" id="apiListAll"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+<div class="modal fade" id="apiResponseModal" tabindex="-1" aria-labelledby="apiResponseModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content bg-dark text-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="apiResponseModalLabel">API Response</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h6 id="apiResponseModalDesc" class="text-secondary mb-3"></h6> 
+        
+        <ul class="nav nav-tabs" id="apiModalTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="response-tab" data-bs-toggle="tab" data-bs-target="#responseContent" type="button" role="tab">Response</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="code-tab" data-bs-toggle="tab" data-bs-target="#codeContent" type="button" role="tab">Code Example</button>
+          </li>
+        </ul>
+
+        <div class="tab-content mt-3">
+          <div class="tab-pane fade show active" id="responseContent" role="tabpanel">
+            
+            <div id="apiQueryInputContainer" class="mb-3">
+            </div>
+            
+            <button id="submitQueryBtn" class="btn btn-success mb-3 w-100 d-none">Request API</button>
+            
+            <div id="apiResponseSpinner" class="text-center my-3 d-none">
+                <div class="spinner-border text-light" role="status"></div>
+            </div>
+            
+            <pre id="apiResponseContent" class="bg-black text-success p-3 rounded small d-none"></pre>
+          </div>
+
+          <div class="tab-pane fade" id="codeContent" role="tabpanel">
+            <button class="btn btn-sm btn-outline-light float-end mb-2" id="copyCodeBtn">Copy</button>
+            <pre id="apiCodeExample" class="bg-black text-info p-3 rounded small"></pre>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <small class="text-muted" id="apiEndpointContainer" style="cursor: pointer;" title="Click to copy endpoint">
+            Endpoint: <span id="apiEndpoint" class="text-warning fw-bold"></span>
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+  <script>
+    const socket = io();
+    const streamContainer = document.getElementById('streamContainer');
+
+    socket.on("api_request", (data) => {
+      const div = document.createElement('div');
+      let colorClass = "status-ok";
+      if (data.status >= 400 && data.status < 500) colorClass = "status-warn";
+      if (data.status >= 500) colorClass = "status-err";
+
+      div.className = `request-item ${colorClass}`;
+      div.innerHTML = `
+        <div>
+          <span class="glow">${data.method}</span> 
+          <span>${data.path}</span><br>
+          <small>${new Date(data.timestamp).toLocaleTimeString()}</small>
+        </div>
+        <div class="text-end">
+          <strong>${data.status}</strong><br>
+          <small>${data.latency} ms</small>
+        </div>
+      `;
+      streamContainer.prepend(div);
+
+      // Batasi hanya 100 log terakhir
+      if (streamContainer.childElementCount > 100) {
+        streamContainer.removeChild(streamContainer.lastChild);
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/script.js"></script>
+
+</body>
+</html>
