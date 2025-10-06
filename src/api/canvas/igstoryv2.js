@@ -11,7 +11,7 @@ module.exports = function (app, prefix = "") {
     const {
       username = "sayuki.ai",
       text = "✨ Welcome to Sayuki Story Mode ✨",
-      avatar = "https://i.ibb.co.com/PGMBpZJF/icon.webp",
+      avatar = "https://i.ibb.co.com/4ZWkyvz0/8sz4qjwckxrma0csp08rwax190.png",
       progress = 0.6 // 0.0 → 1.0
     } = req.query;
 
