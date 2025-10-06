@@ -99,25 +99,25 @@
   {
   "name": "iPhone Chat Bubble",
   "desc": "Generate gambar chat bubble seperti iMessage/WhatsApp dengan teks custom.",
-  "path": "/api/canvas/chatbubble?text=",
+  "path": "/endpoint/canvas/chatbubble?text=",
   "innerDesc": "Gunakan query ?text= untuk menampilkan teks pada gambar chat bubble. Contoh: /api/canvas/chatbubble?text=Hallo%20Sayuki"
 },
 {
   "name": "iPhone Chat Bubble v2",
   "desc": "Membuat gambar chat bubble dengan emoji reaction, profil, jam, dan efek glassmorphism.",
-  "path": "/api/canvas/chatbubblev2?text=",
-  "innerDesc": "Gunakan ?text= untuk isi pesan, ?avatar= untuk gambar profil, dan ?time= untuk jam custom. Contoh: /api/canvas/chatbubblev2?text=Hallo%20Sayuki&avatar=https://i.ibb.co/0mYBq4R/avatar.png"
+  "path": "/endpoint/canvas/chatbubblev2?text=",
+  "innerDesc": "Gunakan ?text= untuk isi pesan, ?avatar= untuk gambar profil, dan ?time= untuk jam custom. Contoh: /endpoint/canvas/chatbubblev2?text=Hallo%20Sayuki&avatar=https://i.ibb.co/0mYBq4R/avatar.png"
 },
 {
   "name": "Instagram Story Generator",
   "desc": "Buat gambar bergaya Instagram Story dengan background hitam dan teks custom di tengah.",
-  "path": "/api/canvas/igstory?text=",
+  "path": "/endpoint/canvas/igstory?text=",
   "innerDesc": "Gunakan query ?text= untuk menambahkan teks, ?username= untuk nama pengguna, dan ?avatar= untuk foto profil. Contoh: /api/canvas/igstory?text=Hallo%20Sayuki&username=b4mzciIIIIIII"
 },
 {
   "name": "Instagram Story Generator v2",
   "desc": "Buat gambar seperti Instagram Story dengan gradient transparan, blur background, progress bar, dan teks custom.",
-  "path": "/api/canvas/igstoryv2?text=",
+  "path": "/endpoint/canvas/igstoryv2?text=",
   "innerDesc": "Gunakan query ?text= untuk teks, ?username= untuk nama pengguna, ?avatar= untuk foto profil (URL), dan ?progress= untuk durasi story (0–1)."
 }
 ]
