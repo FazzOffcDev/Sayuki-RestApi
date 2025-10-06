@@ -15,7 +15,7 @@ module.exports = function (app, prefix = "") {
         hour: "2-digit",
         minute: "2-digit",
       }),
-      avatar = "https://i.ibb.co/0mYBq4R/avatar.png"
+      avatar = "https://i.ibb.co.com/4ZWkyvz0/8sz4qjwckxrma0csp08rwax190.png"
     } = req.query;
 
     try {
