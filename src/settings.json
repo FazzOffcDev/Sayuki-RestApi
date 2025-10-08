@@ -130,6 +130,17 @@
 ]
 },
 {
+  "name": "Upload",
+  "items": [
+  {
+          "name": "Catbox Photo Uploader",
+          "desc": "Unggah foto/file ke Catbox.moe (POST).",
+          "path": "/endpoint/upload/catbox?fileToUpload=",
+          "method": "POST"
+        }
+  ]
+  },
+{
   "name": "Games",
   "items": [
     {
@@ -170,6 +181,34 @@
   }
   ]
   },
+  {
+  "name": "Quotes",
+  "items": [
+      {
+        "name": "QuotesIslam Acak (Gambar)",
+        "desc": "Mengambil satu gambar quotes Islam secara acak. Endpoint ini mengembalikan *file* gambar (*image/png*) secara langsung, bukan JSON.",
+        "path": "/endpoint/renunganislam"
+    },
+      {
+    "name": "JagoKata: Random Quotes",
+    "desc": "Mengambil 10 kutipan acak (quotes) dari berbagai tokoh.",
+    "path": "/endpoint/info/jagokata",
+    "innerDesc": "Tidak ada parameter yang diperlukan. Mengembalikan array berisi 10 quotes beserta detail penulis."
+  },
+  {
+    "name": "JagoKata: Random Peribahasa",
+    "desc": "Mengambil 10 peribahasa acak beserta arti dan link sumbernya.",
+    "path": "/endpoint/info/peribahasa",
+    "innerDesc": "Tidak ada parameter yang diperlukan. Mengembalikan array berisi peribahasa dan artinya."
+  },
+  {
+  "name": "Random Anime Quotes",
+  "desc": "Dapatkan kutipan anime acak (English + Indonesian) dari katanime.vercel.app.",
+  "path": "/endpoint/anime/random?count=",
+  "innerDesc": "Gunakan ?count= untuk menentukan berapa kutipan yang diambil (default 5, max 20). Contoh: /api/anime/random?count=3"
+}
+]
+},
 {
   "name": "Informasi",
   "items": [
@@ -178,11 +217,330 @@
       "desc": "Mendapatkan prakiraan cuaca 10 hari lengkap dari AccuWeather untuk kota tertentu.",
       "path": "/endpoint/info/weather/?city=jakarta", 
       "method": "GET"
+    },
+      {
+    "name": "Jadwal Sholat Harian",
+    "desc": "Mengambil jadwal waktu sholat harian (Imsyak, Subuh, Dzuhur, Ashar, Maghrib, Isya) berdasarkan nama kota.",
+    "path": "/endpoint/info/jadwal/sholat?query=",
+    "innerDesc": "Wajib: ?query= (Nama kota/daerah, cth: jakarta). Mengembalikan jadwal waktu sholat hari ini. PERINGATAN: Fitur ini rentan terhadap perubahan struktur web sumber."
+  },
+    {
+  "name": "Weather Forecast",
+  "desc": "Dapatkan prakiraan cuaca terkini berdasarkan koordinat (latitude & longitude). Data diambil dari openapi.de4a.space (BMKG).",
+  "path": "/endpoint/weatherv2?lat=-6.4314&lon=106.8338",
+  "innerDesc": "Gunakan parameter ?lat= dan ?lon= untuk menentukan lokasi yang ingin dicek. Contoh: /endpoint/weatherv2?lat=-6.4314&lon=106.8338",
+  "category": "Informasi Cuaca",
+  "author": "Sayuki Dev",
+  "example": {
+    "request": "GET /endpoint/weatherv2?lat=-6.4314&lon=106.8338",
+    "response": {
+      "status": true,
+      "message": "success",
+      "lokasi": {
+        "provinsi": "Jawa Barat",
+        "kota": "Kota Depok",
+        "kecamatan": "Cilodong",
+        "kelurahan": "Kalibaru"
+      },
+      "prakiraan": [
+        {
+          "waktu_local": "2025-10-07 21:00:00",
+          "suhu": "25°C",
+          "kelembapan": "90%",
+          "deskripsi": "Cerah Berawan",
+          "arah_angin": "SW",
+          "kecepatan_angin": "2.8 m/s",
+          "jarak_pandang": "< 10 km",
+          "icon": "https://api-apps.bmkg.go.id/storage/icon/cuaca/cerah berawan-pm.svg"
+        }
+      ]
+    }
+  }
+},
+  {
+    "name": "Jadwal Acara TV Harian",
+    "desc": "Mengambil daftar lengkap jadwal acara TV hari ini dari berbagai channel di Dokitv.com.",
+    "path": "/endpoint/info/jadwal/tv",
+    "innerDesc": "Tidak ada parameter yang diperlukan. Mengembalikan array jadwal ('acara', 'channel', 'jam', 'source'). PERINGATAN: Fitur ini rentan terhadap perubahan struktur web sumber."
+  },
+  {
+    "name": "Jadwal Bola TV",
+    "desc": "Mengambil daftar lengkap jadwal pertandingan sepak bola yang disiarkan di TV Indonesia dari Bola.net.",
+    "path": "/endpoint/info/jadwal/bola",
+    "innerDesc": "Tidak ada parameter yang diperlukan. Mengembalikan array jadwal ('jadwal', 'tanggal', 'jam', 'thumb'). PERINGATAN: Fitur ini rentan terhadap perubahan struktur web sumber."
+  },
+    {
+        "name": "Province List",
+        "desc": "Mengambil daftar semua provinsi di Indonesia dari sumber eksternal.",
+        "path": "/endpoint/province"
+    },
+    {
+        "name": "Province Detail",
+        "desc": "Mengambil detail suatu provinsi, termasuk daftar kota/kabupaten di dalamnya, dari sumber eksternal.",
+        "path": "/endpoint/province?id=67fe1456a32be2ab743ff554"
+    },
+    {
+        "name": "Province Cities List",
+        "desc": "Mengambil daftar semua kota/kabupaten berdasarkan ID Provinsi dari sumber eksternal.",
+        "path": "/endpoint/province?=67fe1456a32be2ab743ff554"
+    },
+    {
+        "name": "City/Regency Detail",
+        "desc": "Mengambil detail spesifik satu kota/kabupaten berdasarkan ID Provinsi dan ID Kota dari sumber eksternal.",
+        "path": "/endpoint/province?=67fe1456a32be2ab743ff554&city=67fe1456a32be2ab743ff58d"
+    },
+        {
+        "name": "Prayer Schedule (Monthly)",
+        "desc": "Mengambil jadwal sholat bulanan berdasarkan koordinat Latitude dan Longitude.",
+        "path": "/endpoint/prayer?latitude=-8.53695&longitude=115.402972222222"
     }
   ]
 },
 {
-      "name": "Social Media Stalker",
+      "name": "Berita",
+      "items": [
+          {
+        "name": "CNN Indonesia News List",
+        "desc": "Mengambil daftar berita terbaru dari CNN Indonesia.",
+        "path": "/endpoint/news/cnnall"
+    },
+    {
+        "name": "CNN Indonesia News by Type",
+        "desc": "Mengambil daftar berita CNN Indonesia berdasarkan kategori (misal: nasional, gaya-hidup, ekonomi).",
+        "path": "/endpoint/news/cnn?type=nasional"
+    },
+    {
+        "name": "CNBC Indonesia News List",
+        "desc": "Mengambil daftar berita terbaru dari CNBC Indonesia.",
+        "path": "/endpoint/news/cnbc"
+    },
+    {
+        "name": "CNBC Indonesia News by Type",
+        "desc": "Mengambil daftar berita CNBC Indonesia berdasarkan kategori (misal: market, news, tech).",
+        "path": "/endpoint/news/cnbc?type=market",
+        "listType": [
+            "market",
+            "news",
+            "entrepreneur",
+            "syariah",
+            "tech",
+            "lifestyle"
+        ]
+    },
+    {
+        "name": "Republika News (All)",
+        "desc": "Mengambil semua berita terbaru dari Republika.",
+        "path": "/endpoint/news/republika"
+    },
+    {
+        "name": "Republika News (By Type)",
+        "desc": "Mengambil berita Republika berdasarkan kategori spesifik.",
+        "path": "/endpoint/news/republika?type="
+    },
+    {
+        "name": "Tempo News (All)",
+        "desc": "Mengambil semua berita terbaru dari Tempo.",
+        "path": "/endpoint/news/tempo"
+    },
+    {
+        "name": "Tempo News (By Type)",
+        "desc": "Mengambil berita Tempo berdasarkan kategori spesifik.",
+        "path": "/endpoint/news/tempo?type="
+    },
+    {
+        "name": "Okezone News List (All)",
+        "desc": "Mengambil semua daftar berita terbaru dari Okezone.",
+        "path": "/news/okezone"
+    },
+    {
+        "name": "Okezone News by Type",
+        "desc": "Mengambil daftar berita Okezone berdasarkan kategori.",
+        "path": "/endpoint/news/okezone?type=",
+        "listType": [
+            "breaking",
+            "sport",
+            "economy",
+            "lifestyle",
+            "celebrity",
+            "bola",
+            "techno"
+        ]
+    },
+    {
+        "name": "Kumparan News (All)",
+        "desc": "Mengambil semua berita terbaru dari Kumparan.",
+        "path": "/endpoint/news/kumparan"
+    },
+    {
+        "name": "Tribun News (All)",
+        "desc": "Mengambil semua berita terbaru dari Tribun.",
+        "path": "/endpoint/news/tribun"
+    },
+    {
+        "name": "Tribun News (By Zone & Type)",
+        "desc": "Mengambil berita Tribun berdasarkan kombinasi Zona (Wilayah) dan Tipe (Kategori).",
+        "path": "/endpoint/news/tribun?zone=jakarta&type=bisnis"
+    }
+    ]
+    },
+    {
+      "name": "Anime",
+      "items": [
+        {
+    "name": "Samehadaku Latest",
+    "desc": "Mengambil daftar episode anime terbaru dari Samehadaku.email.",
+    "path": "/endpoint/scrape/samehadaku/latest",
+    "innerDesc": "Tidak ada parameter yang diperlukan. Mengembalikan array berisi episode terbaru (judul, episode, rilis, url)."
+  },
+  {
+    "name": "Samehadaku Search",
+    "desc": "Mencari anime berdasarkan kata kunci di Samehadaku.email.",
+    "path": "/endpoint/search/samehadaku?q=",
+    "innerDesc": "Wajib: ?q= untuk kata kunci pencarian. Mengembalikan array hasil (judul, type, score, url)."
+  },
+  {
+    "name": "Samehadaku Detail Info",
+    "desc": "Mengambil metadata lengkap (status, studio, genre, sinopsis) dan daftar episode dari halaman detail anime.",
+    "path": "/endpoint/info/samehadaku/detail?url=",
+    "innerDesc": "Wajib: ?url= untuk link detail anime Samehadaku. Mengembalikan metadata dan array 'episodes'."
+  },
+  {
+    "name": "Samehadaku Downloader: Episode Links",
+    "desc": "Mengambil semua link download (resolusi dan sumber) untuk episode anime spesifik.",
+    "path": "/endpoint/download/samehadaku/episode?url=",
+    "innerDesc": "Wajib: ?url= untuk link halaman episode Samehadaku. Mengembalikan metadata episode dan objek 'download' dengan link per kualitas."
+  },
+            {
+    "name": "Bstation Search",
+    "desc": "Mencari video BiliBili/Bstation berdasarkan kata kunci.",
+    "path": "/endpoint/search/bstation?q=",
+    "innerDesc": "Wajib: ?q= untuk kata kunci pencarian. Mengembalikan array video (judul, views, thumbnail, url)."
+  },
+    {
+    "name": "Bstation Downloader",
+    "desc": "Mengambil link download langsung (stream) dari video Bstation.",
+    "path": "/endpoint/download/bstation?url=",
+    "innerDesc": "Wajib: ?url= untuk link video Bstation. Mengembalikan metadata video dan properti 'download.url' sebagai link stream langsung."
+  },
+   {
+    "name": "Otakudesu Search",
+    "desc": "Mencari anime berdasarkan kata kunci di Otakudesu.cloud.",
+    "path": "/endpoint/search/otakudesu?q=",
+    "innerDesc": "Wajib: ?q= untuk kata kunci pencarian. Mengembalikan array hasil (judul, rating, status, genre, url)."
+  },
+  {
+    "name": "Otakudesu Updates",
+    "desc": "Mengambil daftar update episode anime terbaru (ongoing) dari Otakudesu.cloud.",
+    "path": "/endpoint/scrape/otakudesu/updates",
+    "innerDesc": "Tidak ada parameter yang diperlukan. Mengembalikan array berisi update terbaru (judul, episode, link)."
+  },
+  {
+    "name": "Otakudesu Detail Info",
+    "desc": "Mengambil metadata lengkap (sinopsis, studio, skor) dan daftar episode dari halaman detail anime.",
+    "path": "/endpoint/info/otakudesu/detail?url=",
+    "innerDesc": "Wajib: ?url= untuk link detail anime Otakudesu. Mengembalikan metadata, daftar episode, dan sinopsis."
+  },
+  {
+    "name": "Otakudesu Downloader: Episode Links",
+    "desc": "Mengambil semua link download (resolusi, size, server) untuk halaman episode atau batch link tertentu.",
+    "path": "/endpoint/download/otakudesu/episode?url=",
+    "innerDesc": "Wajib: ?url= untuk link halaman episode Otakudesu. Mengembalikan metadata episode dan objek 'download' per kualitas."
+  },
+    {
+    "name": "Kuronime Latest",
+    "desc": "Mengambil daftar episode anime terbaru dari Kuronime.biz.",
+    "path": "/endpoint/scrape/kuronime/latest",
+    "innerDesc": "Tidak ada parameter yang diperlukan. Mengembalikan array berisi episode terbaru (judul, views, rilis, url)."
+  },
+  {
+    "name": "Kuronime Search",
+    "desc": "Mencari anime/konten berdasarkan kata kunci di Kuronime.biz.",
+    "path": "/endpoint/search/kuronime?q=",
+    "innerDesc": "Wajib: ?q= untuk kata kunci pencarian. Mengembalikan array hasil (judul, type, score, url)."
+  },
+  {
+    "name": "Kuronime Detail Info",
+    "desc": "Mengambil metadata lengkap (sinopsis, genre, status) dan daftar episode dari halaman detail anime.",
+    "path": "/endpoint/info/kuronime/detail?url=",
+    "innerDesc": "Wajib: ?url= untuk link detail Kuronime. Mengembalikan metadata, sinopsis, dan array 'episodes'."
+  },
+  {
+    "name": "Nekopoi Latest Updates",
+    "desc": "Mengambil daftar Series dan Episode terbaru dari Nekopoi.care.",
+    "path": "/endpoint/scrape/nekopoi/latest",
+    "innerDesc": "Tidak ada parameter yang diperlukan. Mengembalikan objek yang berisi array 'series' dan array 'episode'."
+  },
+  {
+    "name": "Nekopoi Search",
+    "desc": "Mencari konten di Nekopoi.care berdasarkan kata kunci.",
+    "path": "/endpoint/search/nekopoi?q=",
+    "innerDesc": "Wajib: ?q= untuk kata kunci pencarian. Mengembalikan array hasil (judul, type, images, url)."
+  },
+  {
+    "name": "Nekopoi Detail Info",
+    "desc": "Mengambil metadata lengkap (sinopsis, genre, status) dan daftar episode dari halaman detail series.",
+    "path": "/endpoint/info/nekopoi/detail?url=",
+    "innerDesc": "Wajib: ?url= untuk link detail series Nekopoi. Mengembalikan metadata, sinopsis, dan array 'episodes'."
+  },
+  {
+    "name": "Nekopoi Episode Links",
+    "desc": "Mengambil link streaming dan link download (berbagai server/kualitas) dari halaman episode Nekopoi.",
+    "path": "/endpoint/info/nekopoi/episode?url=",
+    "innerDesc": "Wajib: ?url= untuk link halaman episode Nekopoi. Mengembalikan link 'stream' dan array 'download' per server."
+  }
+      ]
+      },
+{
+      "name": "Islamic",
+      "items": [
+          {
+        "name": "Quran Surah List (114 Chapters)",
+        "desc": "Mengambil daftar lengkap 114 Surah Al-Qur'an beserta nama, arti, jumlah ayat, dan tipe wahyu (Mekah/Madinah).",
+        "path": "/endpoint/quran/surah"
+    },
+    {
+        "name": "Quran Surah Detail (Verses)",
+        "desc": "Mengambil detail ayat-ayat (beserta teks Arab dan terjemahan Indonesia) dari Surah Al-Qur'an berdasarkan ID Surah (1 hingga 114).",
+        "path": "/endpoint/quran/surah?id=1",
+        "parameters": [
+            {
+                "name": "id",
+                "type": "integer",
+                "desc": "ID Surah (contoh: 1 untuk Al-Fatihah, 114 untuk An-Nas)."
+            }
+        ]
+    },
+    {
+        "name": "Jadwal Sholat Bulanan",
+        "desc": "Mengambil jadwal sholat (Imsyak, Shubuh, Dzuhur, Ashr, Magrib, Isya) secara bulanan untuk kota tertentu.",
+        "path": "/endpoint/jadwal-sholat?kota=Semarang&tahun=2019&bulan=1"
+    },
+    {
+        "name": "Asmaul Husna Acak",
+        "desc": "Mengambil satu nama Asmaul Husna (99 Nama Allah) secara acak lengkap dengan arti dalam Bahasa Indonesia dan Inggris.",
+        "path": "/endpoint/asmaulhusna"
+    },
+{
+    "name": "Doa Harian",
+    "desc": "Mencari dan menampilkan teks, latin, dan arti doa harian.",
+    "path": "/endpoint/islamic/doa",
+    "method": "GET",
+    "innerDesc": "Opsional: Gunakan `?q=` untuk mencari doa spesifik (misal: `?q=sebelum makan`). Jika tanpa parameter, akan menampilkan daftar doa."
+},
+    {
+        "name": "Kisah Nabi Acak",
+        "desc": "Mengambil satu kisah Nabi secara acak, termasuk detail nama, usia, tempat, dan narasi lengkap.",
+        "path": "/endpoint/kisahnabi"
+    },
+    {
+        "name": "Hadith List and Search",
+        "desc": "Mengambil daftar Hadith lengkap dengan fitur paginasi dan pencarian berdasarkan terjemahan Hadith.",
+        "path": "/endpoint/hadis?page=1&limit=10&q="
+    }
+    ]
+    },
+{
+      "name": "Stalker",
       "items": [
         {
           "name": "GitHub Profile Stalker",
@@ -196,6 +554,12 @@
       "path": "/endpoint/stalk/tiktok?username=therock", 
       "method": "GET"
     },
+      {
+    "name": "NPM Stalker",
+    "desc": "Mengambil metadata paket NPM (versi, dependensi, waktu rilis) dari NPM Registry.",
+    "path": "/endpoint/info/npm?q=",
+    "innerDesc": "Wajib: ?q= untuk nama paket NPM (contoh: axios, express)."
+  },
         {
       "name": "Instagram Profile Stalker",
       "desc": "Mengambil detail profil dan 12 postingan terbaru dari pengguna Instagram.",
@@ -212,6 +576,62 @@
           "desc": "Video search",
           "path": "/endpoint/search/youtube?q=fazzcodex"
         },
+          {
+    "name": "Steam Search",
+    "desc": "Mencari game/aplikasi berdasarkan kata kunci di Steam menggunakan Steam Web API.",
+    "path": "/endpoint/search/steam?q=",
+    "innerDesc": "Wajib: ?q= untuk kata kunci pencarian. Mengembalikan array hasil (name, id, price, score, platform)."
+  },
+    {
+    "name": "Steam Detail Info",
+    "desc": "Mengambil metadata lengkap, screenshot, dan trailer (movies) dari game Steam menggunakan App ID.",
+    "path": "/endpoint/info/steam/detail?id=",
+    "innerDesc": "Wajib: ?id= (ID Game Steam). Mengembalikan detail metadata, screenshot, dan trailer game."
+  },
+         
+  {
+    "name": "SoundCloud Search",
+    "desc": "Mencari lagu/track berdasarkan kata kunci di SoundCloud.",
+    "path": "/endpoint/search/soundcloud?q=",
+    "innerDesc": "Wajib: ?q= untuk kata kunci pencarian. Mengembalikan array hasil lagu dengan properti 'title' dan 'url'."
+  },
+
+  {
+    "name": "SnackVideo Scraper: Search",
+    "desc": "Mencari video berdasarkan kata kunci di SnackVideo.com. Mengambil metadata, statistik, dan info author.",
+    "path": "/endpoint/search/snackvideo?q=",
+    "innerDesc": "Wajib: ?q= untuk kata kunci pencarian. Mengembalikan array hasil (title, stats, author, url)."
+  },
+        {
+    "name": "KBBI Dictionary Search",
+    "desc": "Mencari arti kata dari Kamus Besar Bahasa Indonesia (KBBI) online.",
+    "path": "/endpoint/info/kbbi?q=",
+    "innerDesc": "Wajib: ?q= untuk kata kunci. Mengembalikan 'lema' dan array 'arti' kata tersebut."
+  },
+          {
+    "name": "Joox Music Search",
+    "desc": "Mencari lagu di Joox dan mendapatkan metadata lengkap serta link MP3 (menggunakan multi-request).",
+    "path": "/endpoint/search/joox?q=",
+    "innerDesc": "Wajib: ?q= untuk judul lagu atau artis. Mengembalikan array hasil lagu dengan properti 'mp3' sebagai link unduhan."
+  },
+          {
+    "name": "HD Wallpaper Search",
+    "desc": "Mencari wallpaper HD ",
+    "path": "/endpoint/search/wallpaper?q=&page=",
+    "innerDesc": "Wajib: ?q= (kata kunci), Opsional: ?page= (default 1). Mengembalikan beberapa opsi link gambar resolusi tinggi di properti 'imageUrls'."
+  },
+          {
+    "name": "HappyMod App Search",
+    "desc": "Mencari aplikasi modifikasi (MOD APK) berdasarkan kata kunci di HappyMod.com.",
+    "path": "/endpoint/search/happymod?q=",
+    "innerDesc": "Wajib: ?q= untuk kata kunci pencarian aplikasi. Mengembalikan 'link' ke halaman aplikasi tersebut."
+  },
+          {
+    "name": "DaFont Search",
+    "desc": "Mencari font berdasarkan kata kunci di DaFont.",
+    "path": "/endpoint/search/dafont?q=",
+    "innerDesc": "Wajib: ?q= untuk kata kunci pencarian. Mengembalikan 'link' ke halaman font."
+  },
         {
       "name": "TikTok Video Search",
       "desc": "Mencari video TikTok berdasarkan kata kunci dan memberikan link video/musik.",
@@ -242,11 +662,28 @@
       "path": "/endpoint/search/sfile?q=pou", 
       "method": "GET"
     },
+    {
+    "name": "Donghub Scraper: Search",
+    "desc": "Mencari anime, donghua, atau film berdasarkan kata kunci di Donghub.",
+    "path": "/endpoint/search/donghub?q=",
+    "innerDesc": "Wajib: ?q= untuk kata kunci pencarian. Mengembalikan daftar hasil pencarian, termasuk judul, URL, dan tipe."
+  },
+  {
+    "name": "Donghub Scraper: All Movies",
+    "desc": "Mengambil daftar semua film (Movie Type) yang diperbarui terbaru dari Donghub (limit 5 halaman).",
+    "path": "/endpoint/search/donghub/movies",
+    "innerDesc": "Tidak ada parameter yang diperlukan. Mengembalikan array berisi film yang ditemukan. (Scraping intensif, gunakan dengan hati-hati)."
+  },
         {
       "name": "Android1 App Search",
       "desc": "Mencari aplikasi Android, termasuk versi mod, dari Android1.",
       "path": "/endpoint/search/android1?q=pou", 
       "method": "GET"
+    },
+    {
+        "name": "Wikipedia Search",
+        "desc": "Mencari artikel dan informasi umum menggunakan API Wikipedia.",
+        "path": "/endpoint/search/wikipedia?q=Nelson%20Mandela"
     },
     {
       "name": "GitHub Repository Search",
@@ -276,66 +713,109 @@
   "desc": "Cari lagu di Spotify dan download sebagai MP3",
   "path": "/endpoint/download/spotify?q=",
   "innerDesc": "Gunakan ?q= untuk judul atau nama lagu"
-},
+}, 
+  {
+    "name": "SoundCloud Downloader",
+    "desc": "Mengambil metadata dan link download MP3 langsung dari URL lagu SoundCloud menggunakan situs converter pihak ketiga.",
+    "path": "/endpoint/download/soundcloud?url=",
+    "innerDesc": "Wajib: ?url= untuk link lagu SoundCloud. Mengembalikan metadata dan link download di properti 'download_link'."
+  },
+  {
+    "name": "Terabox Downloader",
+    "desc": "Mengambil metadata dan link download langsung dari Terabox/Baidu Netdisk share link.",
+    "path": "/endpoint/download/terabox?url=",
+    "innerDesc": "Wajib: ?url= untuk link Terabox share. Mengembalikan array data file dengan 'download' sebagai link unduhan."
+  },
+ {
+    "name": "DoodStream Downloader",
+    "desc": "Mengambil metadata dan link streaming/download langsung dari video DoodStream/d000d.com.",
+    "path": "/endpoint/download/doodstream?url=",
+    "innerDesc": "Wajib: ?url= untuk link DoodStream (e.g., /d/ID). Mengembalikan metadata video dan link 'download' (link streaming langsung)."
+  },
+  {
+    "name": "DaFont Download",
+    "desc": "Mengambil link unduhan ZIP langsung untuk font dari DaFont.",
+    "path": "/endpoint/download/dafont?link=",
+    "innerDesc": "Wajib: ?link= (URL halaman font yang didapatkan dari endpoint Search). Mengembalikan 'down' sebagai link ZIP final."
+  },
         {
     "name": "Capcut Downloader",
     "desc": "Download video dari Capcut Template dengan mudah.",
     "path": "/endpoint/download/capcut?url=",
     "innerDesc": "Gunakan ?url= untuk link Capcut."
   },
-  {
-  "name": "Instagram Downloader",
-  "desc": "Download reel/video/foto dari Instagram",
-  "path": "/endpoint/download/instagram?url=",
-  "innerDesc": "Gunakan ?url= untuk link Instagram (reel, video, post)"
-},
+    {
+    "name": "FB/IG Downloader",
+    "desc": "Mengunduh video/gambar dari Facebook dan Instagram ",
+    "path": "/endpoint/download/snapsave?url=",
+    "innerDesc": "Wajib: ?url= untuk link FB/IG. Mengembalikan 'thumbnail' dan array 'links' dengan kualitas unduhan yang berbeda."
+  },
 {
   "name": "MediaFire Downloader",
   "desc": "Ambil direct link file dari MediaFire",
   "path": "/endpoint/download/mediafire?url=",
   "innerDesc": "Gunakan ?url= dengan link MediaFire"
 },
+  {
+    "name": "Pinterest Downloader",
+    "desc": "Mengambil link download langsung (gambar atau video) dan metadata author dari Pin Pinterest.",
+    "path": "/endpoint/download/pinterest?url=",
+    "innerDesc": "Wajib: ?url= untuk link Pin Pinterest. Mengembalikan link download di properti 'downloadFile'."
+  },
 {
       "name": "AN1 Downloader",
       "desc": "Mendapatkan link unduhan langsung beserta detail dari halaman aplikasi AN1.com.",
       "path": "/endpoint/download/android1?url=https://an1.com/4454-construction-simulator-2-mod.html", 
       "method": "GET"
     },
-        {
-          "name": "Google Drive Downloader",
-          "desc": "Download file dari Google Drive",
-          "path": "/endpoint/download/gdrive?id=",
-          "innerDesc": "Gunakan ?id= untuk ID file Google Drive"
-        },
+  {
+    "name": "Google Drive Downloader",
+    "desc": "Mengambil metadata file (nama, ukuran, mimetype) dan link download langsung dari file Google Drive, termasuk bypass untuk file besar.",
+    "path": "/endpoint/download/gdrive?id=&redirect=",
+    "innerDesc": "Wajib: ?id= (ID file Google Drive). Opsional: ?redirect=true (untuk langsung mengarahkan ke link download). Mengembalikan metadata file dan 'downloadUrl'."
+  },
         {
           "name": "SFile Downloader",
           "desc": "Download file dari SFile",
           "path": "/endpoint/download/sfile?url=",
           "innerDesc": "Gunakan ?url= untuk link SFile"
         },
-      {
-      "name": "YouTube MP4 Downloader",
-      "desc": "Download YouTube video ke MP4",
-      "path": "/endpoint/download/ytmp4?url=",
-      "innerDesc": "Gunakan ?url= untuk link YouTube dan opsional ?title= untuk judul file"
-    },
+  {
+    "name": "YouTube Downloader",
+    "desc": "Mengambil link download langsung untuk resolusi spesifik (MP4) dari video YouTube.",
+    "path": "/endpoint/download/youtube?url=",
+    "innerDesc": "Wajib: ?url= (link YouTube) dan ?resolution= (misalnya: 720p, 360p). Mengembalikan link download MP4 langsung."
+  },
     {
-      "name": "YouTube MP3 Downloader",
-      "desc": "Download audio YouTube (MP3)",
-      "path": "/endpoint/download/ytmp3?url=",
-      "innerDesc": "Gunakan ?url= sebagai link video YouTube"
-    },
+    "name": "YouTube MP3 Downloader",
+    "desc": "Mengambil metadata dan link stream audio terbaik (Opus/WebM) dari video YouTube.",
+    "path": "/endpoint/download/ytmp3?url=",
+    "innerDesc": "Wajib: ?url= untuk link video YouTube. Mengembalikan 'url' sebagai link stream audio."
+  },
 {
           "name": "TikTok Downloader",
           "desc": "Download video dan foto TikTok tanpa watermark.",
-          "path": "/endpoint/download/tiktok?url=",
+          "path": "/endpoint/download/tiktok?url=https://vt.tiktok.com/ZSUNvv3MD/",
          "innerDesc": "Gunakan parameter ?url= untuk link video TikTok"
         },
         {
-          "name": "Snack Video Downloader",
-          "desc": "Download video Snack Video (Kwaii) tanpa watermark.",
-          "path": "/endpoint/download/snackvideo?url=https://s.snackvideo.com/p/dwlMd51U" 
+          "name": "TikTok Downloader V2",
+          "desc": "Download video dan foto TikTok tanpa watermark.",
+          "path": "/endpoint/download/tiktokv2?url=https://vt.tiktok.com/ZSUNvv3MD/",
+         "innerDesc": "Gunakan parameter ?url= untuk link video TikTok"
         },
+          {
+    "name": "TikTok Downloader V3",
+    "desc": "Mengunduh video (No WM/WM), audio, dan slide image dari TikTok menggunakan ttsave.app.",
+    "path": "/endpoint/download/tiktokv3?url=",
+    "innerDesc": "Wajib: ?url= untuk link video TikTok. Secara otomatis mendeteksi tipe konten (Video/Slide) dan mengembalikan 'download' untuk link No WM/WM dan 'slides' untuk gambar."
+  },
+  {
+    "name": "SnackVideo Downloader",
+    "desc": "Mengambil metadata lengkap dan link download langsung (MP4) dari URL video SnackVideo.",
+    "path": "/endpoint/download/snackvideo?url=",
+    "innerDesc": "Wajib: ?url= untuk link halaman video SnackVideo (e.g., /v/...). Mengembalikan metadata dan link download di properti 'download'."
+  },
         {
           "name": "GitHub Repo Downloader",
           "desc": "Mengunduh seluruh repository GitHub sebagai file ZIP.",
@@ -344,7 +824,7 @@
     {
       "name": "Facebook Video Downloader",
       "desc": "Download video dari Facebook",
-      "path": "/endpoint/download/facebook?url=",
+      "path": "/endpoint/download/facebook/fbdown?url=",
       "innerDesc": "Gunakan ?url= untuk link video Facebook"
     },
     {
@@ -370,12 +850,6 @@
       "method": "GET"
     },
         {
-      "name": "Akiyama Pictures",
-      "desc": "Mengambil Gambar akiyama Secara Acak.",
-      "path": "/endpoint/image/akiyama", 
-      "method": "GET"
-    },
-        {
       "name": "Kagura Pictures",
       "desc": "Mengambil Gambar Kagura Secara Acak.",
       "path": "/endpoint/image/kagura", 
@@ -394,12 +868,6 @@
       "method": "GET"
     },
         {
-      "name": "Ana Pictures",
-      "desc": "Mengambil Gambar Ana Secara Acak.",
-      "path": "/endpoint/image/ana", 
-      "method": "GET"
-    },
-        {
       "name": "Itachi Pictures",
       "desc": "Mengambil Gambar itachi Secara Acak.",
       "path": "/endpoint/image/itachi", 
@@ -409,12 +877,6 @@
       "name": "Emilia Pictures",
       "desc": "Mengambil Gambar Emilia Secara Acak.",
       "path": "/endpoint/image/emilia", 
-      "method": "GET"
-    },
-        {
-      "name": "Asuna Pictures",
-      "desc": "Mengambil Gambar Asuna Secara Acak.",
-      "path": "/endpoint/image/asuna", 
       "method": "GET"
     },
         {
@@ -434,12 +896,497 @@
       "desc": "Mengambil Gambar Inori Secara Acak.",
       "path": "/endpoint/image/inori", 
       "method": "GET"
+    },
+    {
+        "name": "Random Image: Akiyama",
+        "desc": "Gambar acak karakter Akiyama. Sumber: GitHub.",
+        "path": "/endpoint/image/akiyama",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Ana",
+        "desc": "Gambar acak karakter Ana. Sumber: GitHub.",
+        "path": "/endpoint/image/ana",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Art",
+        "desc": "Gambar acak seni/lukisan. Sumber: GitHub.",
+        "path": "/endpoint/image/art",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Asuna",
+        "desc": "Gambar acak karakter Asuna. Sumber: GitHub.",
+        "path": "/endpoint/image/asuna",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Ayuzawa",
+        "desc": "Gambar acak karakter Ayuzawa. Sumber: GitHub.",
+        "path": "/endpoint/image/ayuzawa",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Boruto",
+        "desc": "Gambar acak karakter Boruto. Sumber: GitHub.",
+        "path": "/endpoint/image/boruto",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: BTS",
+        "desc": "Gambar acak grup BTS. Sumber: GitHub.",
+        "path": "/endpoint/image/bts",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Cartoon",
+        "desc": "Gambar acak kartun. Sumber: GitHub.",
+        "path": "/endpoint/image/cartoon",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Chiho",
+        "desc": "Gambar acak karakter Chiho. Sumber: GitHub.",
+        "path": "/endpoint/image/chiho",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Chitoge",
+        "desc": "Gambar acak karakter Chitoge. Sumber: GitHub.",
+        "path": "/endpoint/image/chitoge",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Cosplay",
+        "desc": "Gambar acak Cosplay umum. Sumber: GitHub.",
+        "path": "/endpoint/image/cosplay",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Cosplay Loli",
+        "desc": "Gambar acak Cosplay Loli. Sumber: GitHub.",
+        "path": "/endpoint/image/cosplayloli",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Cosplay Sagiri",
+        "desc": "Gambar acak Cosplay Sagiri. Sumber: GitHub.",
+        "path": "/endpoint/image/cosplaysagiri",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Cyber",
+        "desc": "Gambar acak bertema Cyberpunk/futuristik. Sumber: GitHub.",
+        "path": "/endpoint/image/cyber",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Deidara",
+        "desc": "Gambar acak karakter Deidara. Sumber: GitHub.",
+        "path": "/endpoint/image/deidara",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Doraemon",
+        "desc": "Gambar acak karakter Doraemon. Sumber: GitHub.",
+        "path": "/endpoint/image/doraemon",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Elaina",
+        "desc": "Gambar acak karakter Elaina. Sumber: GitHub.",
+        "path": "/endpoint/image/elaina",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Emilia",
+        "desc": "Gambar acak karakter Emilia. Sumber: GitHub.",
+        "path": "/endpoint/image/emilia",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Erza",
+        "desc": "Gambar acak karakter Erza. Sumber: GitHub.",
+        "path": "/endpoint/image/erza",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: EXO",
+        "desc": "Gambar acak grup EXO. Sumber: GitHub.",
+        "path": "/endpoint/image/exo",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Game Wallpaper",
+        "desc": "Wallpaper acak bertema game. Sumber: GitHub.",
+        "path": "/endpoint/image/gamewallpaper",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Gremory",
+        "desc": "Gambar acak karakter Gremory. Sumber: GitHub.",
+        "path": "/endpoint/image/gremory",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Hacker",
+        "desc": "Gambar acak bertema hacker/coding. Sumber: GitHub.",
+        "path": "/endpoint/image/hacker",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Hestia",
+        "desc": "Gambar acak karakter Hestia. Sumber: GitHub.",
+        "path": "/endpoint/image/hestia",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Hinata",
+        "desc": "Gambar acak karakter Hinata. Sumber: GitHub.",
+        "path": "/endpoint/image/hinata",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Husbu",
+        "desc": "Gambar acak Husbu. Sumber: GitHub.",
+        "path": "/endpoint/image/husbu",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Inori",
+        "desc": "Gambar acak karakter Inori. Sumber: GitHub.",
+        "path": "/endpoint/image/inori",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Islamic",
+        "desc": "Gambar acak bertema Islami. Sumber: GitHub.",
+        "path": "/endpoint/image/islamic",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Isuzu",
+        "desc": "Gambar acak karakter Isuzu. Sumber: GitHub.",
+        "path": "/endpoint/image/isuzu",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Itachi",
+        "desc": "Gambar acak karakter Itachi. Sumber: GitHub.",
+        "path": "/endpoint/image/itachi",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Itori",
+        "desc": "Gambar acak karakter Itori. Sumber: GitHub.",
+        "path": "/endpoint/image/itori",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Jennie",
+        "desc": "Gambar acak Jennie Blackpink. Sumber: GitHub.",
+        "path": "/endpoint/image/jennie",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Jiso",
+        "desc": "Gambar acak Jiso Blackpink. Sumber: GitHub.",
+        "path": "/endpoint/image/jiso",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Justina",
+        "desc": "Gambar acak karakter Justina. Sumber: GitHub.",
+        "path": "/endpoint/image/justina",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Kaga",
+        "desc": "Gambar acak karakter Kaga. Sumber: GitHub.",
+        "path": "/endpoint/image/kaga",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Kagura",
+        "desc": "Gambar acak karakter Kagura. Sumber: GitHub.",
+        "path": "/endpoint/image/kagura",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Kakasih",
+        "desc": "Gambar acak karakter Kakasih. Sumber: GitHub.",
+        "path": "/endpoint/image/kakasih",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Kaori",
+        "desc": "Gambar acak karakter Kaori. Sumber: GitHub.",
+        "path": "/endpoint/image/kaori",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Keneki",
+        "desc": "Gambar acak karakter Keneki. Sumber: GitHub.",
+        "path": "/endpoint/image/keneki",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Kotori",
+        "desc": "Gambar acak karakter Kotori. Sumber: GitHub.",
+        "path": "/endpoint/image/kotori",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Kurumi",
+        "desc": "Gambar acak karakter Kurumi. Sumber: GitHub.",
+        "path": "/endpoint/image/kurumi",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Lisa",
+        "desc": "Gambar acak Lisa Blackpink. Sumber: GitHub.",
+        "path": "/endpoint/image/lisa",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Madara",
+        "desc": "Gambar acak karakter Madara. Sumber: GitHub.",
+        "path": "/endpoint/image/madara",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Megumin",
+        "desc": "Gambar acak karakter Megumin. Sumber: GitHub.",
+        "path": "/endpoint/image/megumin",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Mikasa",
+        "desc": "Gambar acak karakter Mikasa. Sumber: GitHub.",
+        "path": "/endpoint/image/mikasa",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Mikey",
+        "desc": "Gambar acak karakter Mikey. Sumber: GitHub.",
+        "path": "/endpoint/image/mikey",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Miku",
+        "desc": "Gambar acak karakter Miku. Sumber: GitHub.",
+        "path": "/endpoint/image/miku",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Minato",
+        "desc": "Gambar acak karakter Minato. Sumber: GitHub.",
+        "path": "/endpoint/image/minato",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Mountain",
+        "desc": "Gambar acak pemandangan gunung. Sumber: GitHub.",
+        "path": "/endpoint/image/mountain",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Naruto",
+        "desc": "Gambar acak karakter Naruto. Sumber: GitHub.",
+        "path": "/endpoint/image/naruto",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Neko 2",
+        "desc": "Gambar acak Neko (Tipe 2). Sumber: GitHub.",
+        "path": "/endpoint/image/neko2",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Neko Nime",
+        "desc": "Gambar acak Neko Anime. Sumber: GitHub.",
+        "path": "/endpoint/image/nekonime",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Nezuko",
+        "desc": "Gambar acak karakter Nezuko. Sumber: GitHub.",
+        "path": "/endpoint/image/nezuko",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: One Piece",
+        "desc": "Gambar acak dari One Piece. Sumber: GitHub.",
+        "path": "/endpoint/image/onepiece",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Pentol",
+        "desc": "Gambar acak stiker pentol. Sumber: GitHub.",
+        "path": "/endpoint/image/pentol",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Pokemon",
+        "desc": "Gambar acak karakter Pokemon. Sumber: GitHub.",
+        "path": "/endpoint/image/pokemon",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Programming",
+        "desc": "Gambar acak bertema pemrograman. Sumber: GitHub.",
+        "path": "/endpoint/image/programming",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Random Nime 1",
+        "desc": "Gambar acak Anime umum (Tipe 1). Sumber: GitHub.",
+        "path": "/endpoint/image/randomnime",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Random Nime 2",
+        "desc": "Gambar acak Anime umum (Tipe 2). Sumber: GitHub.",
+        "path": "/endpoint/image/randomnime2",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Rize",
+        "desc": "Gambar acak karakter Rize. Sumber: GitHub.",
+        "path": "/endpoint/image/rize",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Rose",
+        "desc": "Gambar acak Rose Blackpink. Sumber: GitHub.",
+        "path": "/endpoint/image/rose",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Sagiri",
+        "desc": "Gambar acak karakter Sagiri. Sumber: GitHub.",
+        "path": "/endpoint/image/sagiri",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Sakura",
+        "desc": "Gambar acak karakter Sakura. Sumber: GitHub.",
+        "path": "/endpoint/image/sakura",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Sasuke",
+        "desc": "Gambar acak karakter Sasuke. Sumber: GitHub.",
+        "path": "/endpoint/image/sasuke",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Satanic",
+        "desc": "Gambar acak bertema Satanic. Sumber: GitHub.",
+        "path": "/endpoint/image/satanic",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Shina",
+        "desc": "Gambar acak karakter Shina. Sumber: GitHub.",
+        "path": "/endpoint/image/shina",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Shinka",
+        "desc": "Gambar acak karakter Shinka. Sumber: GitHub.",
+        "path": "/endpoint/image/shinka",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Shinomiya",
+        "desc": "Gambar acak karakter Shinomiya. Sumber: GitHub.",
+        "path": "/endpoint/image/shinomiya",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Shizuka",
+        "desc": "Gambar acak karakter Shizuka. Sumber: GitHub.",
+        "path": "/endpoint/image/shizuka",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Shota",
+        "desc": "Gambar acak Shota. Sumber: GitHub.",
+        "path": "/endpoint/image/shota",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Short Quote",
+        "desc": "Gambar acak berisi kutipan pendek. Sumber: GitHub.",
+        "path": "/endpoint/image/shortquote",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Space",
+        "desc": "Gambar acak bertema luar angkasa/tata surya. Sumber: GitHub.",
+        "path": "/endpoint/image/space",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Technology",
+        "desc": "Gambar acak bertema teknologi. Sumber: GitHub.",
+        "path": "/endpoint/image/technology",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Tejina",
+        "desc": "Gambar acak karakter Tejina. Sumber: GitHub.",
+        "path": "/endpoint/image/tejina",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Toukachan",
+        "desc": "Gambar acak karakter Toukachan. Sumber: GitHub.",
+        "path": "/endpoint/image/toukachan",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Tsunade",
+        "desc": "Gambar acak karakter Tsunade. Sumber: GitHub.",
+        "path": "/endpoint/image/tsunade",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Yotsuba",
+        "desc": "Gambar acak karakter Yotsuba. Sumber: GitHub.",
+        "path": "/endpoint/image/yotsuba",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Yuki",
+        "desc": "Gambar acak karakter Yuki. Sumber: GitHub.",
+        "path": "/endpoint/image/yuki",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Yulibocil",
+        "desc": "Gambar acak karakter Yulibocil. Sumber: GitHub.",
+        "path": "/endpoint/image/yulibocil",
+        "method": "GET"
+    },
+    {
+        "name": "Random Image: Yumeko",
+        "desc": "Gambar acak karakter Yumeko. Sumber: GitHub.",
+        "path": "/endpoint/image/yumeko",
+        "method": "GET"
     }
   ]
 },
     {
       "name": "Tools",
       "items": [
+    {
+        "name": "IP Geolocation Checker",
+        "desc": "Mendapatkan detail geografis (kota, negara, koordinat, organisasi, zona waktu) berdasarkan alamat IP yang diberikan.",
+        "path": "/endpoint/ipchecker?ip=54.226.156.148"
+    },
         {
           "name": "Remove Background",
           "desc": "Hapus background dari gambar via link",
@@ -457,13 +1404,6 @@
           "path": "/endpoint/tools/brat?text=hallo", 
           "method": "GET"
         },
-{
-          "name": "Catbox Photo Uploader",
-          "desc": "Unggah foto/file ke Catbox.moe (POST).",
-          "path": "/endpoint/upload/catbox?fileToUpload=",
-          "method": "POST",
-      "isImage": true 
-        },
         {
       "name": "Meme Generator",
       "desc": "Membuat meme dengan teks atas dan bawah dari URL gambar.",
@@ -471,12 +1411,30 @@
       "method": "GET",
       "isImage": true 
     },
+        {
+      "name": "Temp Mail Create",
+      "desc": "Membuat Email Sementara.",
+      "path": "/endpoint/temp-email/new", 
+      "method": "GET"
+    },
+        {
+      "name": "Temp Mail Inbox",
+      "desc": "Membuat Email Sementara.",
+      "path": "/endpoint/temp-email/inbox-url?email=", 
+      "method": "GET"
+    },
     {
       "name": "Image Upscaler (2x)",
       "desc": "Meningkatkan resolusi gambar dari link hingga 2 kali lipat.",
       "path": "/endpoint/tools/upscale?imageUrl=https://files.catbox.moe/uyv8dj.png&scale=2", 
       "method": "GET"
-    }
+    },
+      {
+    "name": "Image Upscaler V2",
+    "desc": "Meningkatkan resolusi gambar (image upscaling) menggunakan API Lexica (qewertyy.dev).",
+    "path": "/endpoint/tools/upscalev2?url=",
+    "innerDesc": "Wajib: ?url= untuk link gambar yang akan di-upscale. Mengembalikan file gambar biner (image/png) hasil upscale."
+  }
       ]
     }
   ]
