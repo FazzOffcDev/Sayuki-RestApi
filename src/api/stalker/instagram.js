@@ -1,46 +1,97 @@
 /**
- * Ambil data profil Instagram via BoostFluence API
+ * Instagram User Info Stalker
+ * WARNING: This method (using ?__a=1) is highly unstable and relies on valid, non-expired cookies.
  */
-
 const axios = require("axios");
 
-module.exports = function (app, prefix = "") {
-  app.get(`${prefix}/stalk/instagram`, async (req, res) => {
-    const { username } = req.query;
-    if (!username)
-      return res.status(400).json({ status: false, message: "Parameter ?username= wajib diisi" });
+// Cookie dan User-Agent yang disediakan pengguna (raw, likely expired)
+const STATIC_HEADERS = {
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+    "cookie": "mid=XBXl1AALAAEbFoAEfNjZlMMG9dwX; ig_did=91E66A48-5AA2-445D-BFE6-84DC4456DE8F; fbm_124024574287414=base_domain=.instagram.com; ig_nrcb=1; shbid=\"1273740086249621656157971:01f72a5102dc07af6845adf923ca70eb86e81ab95fa9dbfdaf157c9eef0e82fd1f10fe23\"; shbts=\"162462197140086249621656157971:01f74841fba8e77a0066b47ea891dec8fba6fdf9216c0816f9fb3532292f769828800ae2\"; fbsr_124024574287414=86D8femzH4_KFW4hd3Z6XFdowU6lG-uXsXRQDNl44VM.eyJ1c2VyX2lkIjoiMTAwMDA0Njc2MDc4Nzg5IiwiY29kZSI6IkFRQngzXzVOejdwVnBwby1LRGRUdEYxUFlzcUdDQXJjcmJfcE9OR2lhb2JvOGtLN2paam50bHpvMTNOakFnTzVKOHQ5M0V3U3dvNkRtZ0RiY1l1Z3dQSTIybnExOUxLd3lpZTVfZll0bkNXZXBuM1hoYWFLX0w2R0pZaUpzaDBOTDBhb3pmTVBkRTVQRC12X3FnbUgxLXZYdGVmcHhfaFU0aUZNZVMxNHhFUk5OblJyMmxYTUpDa2RFYTdISXNCR2swdHhaaGF0NUt4cDR3cWZTamRwcVFfQ19sa1RUek5fU0taUTYtMjlzTkdnLUVWb3oxMUZWc3Q2OEx2ZnlIY0V0eFp0ZUxacXpiWmh6MzZrVl83VmFGd0FqVnVkTGFQN2VzT3ZRcmlTQ2pLUE5XbVcyNWhudzIzejJBSnVURW00YWR1cmN6a3ZLWU1icTd2SnN0SVdJV09RIiwib2F1dGhfdG9rZW4iOiJFQUFCd3pMaXhuallCQUJBZmJuQ3haQzZMd3h4MDFJV2MyZ3dsQ3k3Qmp0b05UNUY0WDY2NHBrUzRQeERNVXRsdmhWWkI3SXE0MGsyZ2hJQm55RHRPcW5iVjlPbUNiWGhyTFBaQUhBQjFzVFpBdHF6RFEzVTROUkhOU1V6MFVXWkNtTEdLcDNNWDRoazVIOURLbERHN0QwUlhZNHY4dHBCdVNNYjN4dnBTRGtQcHdYRlBXVU82VCIsImFsZ29yaXRobSI6IkhNQUMtU0hBMjU2IiwiaXNzdWVkX2F0IjoxNjI0NjIxOTgxfQ; fbsr_124024574287414=86D8femzH4_KFW4hd3Z6XFdowU6lG-uXsXRQDNl44VM.eyJ1c2VyX2lkIjoiMTAwMDA0Njc2MDc4Nzg5IiwiY29kZSI6IkFRQngzXzVOejdwVnBwby1LRGRUdEYxUFlzcUdDQXJjcmJfb05HaWFvYkNvOGtLN2paam50bHpvMTNOakFnTzVKOHQ5M0V3U3dvNkRtZ0RiY1l1Z3dQSTIybnExOUxLd3lpZTVfZll0bkNXZXBuM1hoYWFLX0w2R0pZaUpzaDBOTDBhb3pmTVBkRTVQRC12X3FnbUgxLXZYdGVmcHhfaFU0aUZNZVMxNHhFUk5OblJyMmxYTUpDa2RFYTdISXNCR2swdHhaaGF0NUt4cDR3cWZTamRwcVFfQ19sa1RUek5fU0taUTYtMjlzTkdnLUVWb3oxMUZWc3Q2OEx2ZnlIY0V0eFp0ZUxacXpiWmh6MzZrVl83VmFGd0FqVnVkTGFQN2VzT3ZRcmlTQ2pLUE5XbVcyNWhudzIzejJBSnVURW00YWR1cmN6a3ZLWU1icTd2SnN0SVdJV09RIiwib2F1dGhfdG9rZW4iOiJFQUFCd3pMaXhuallCQUJBZmJuQ3haQzZMd3h4MDFJV2MyZ3dsQ3k3Qmp0b05UNUY0WDY2NHBrUzRQeERNVXRsdmhWWkI3SXE0MGsyZ2hJQm55RHRPcW5iVjlPbUNiWGhyTFBaQUhBQjFzVFpBdHF6RFEzVTROUkhOU1V6MFVXWkNtTEdLcDNNWDRoazVIOURLbERHN0QwUlhZNHY4dHBCdVNNYjN4dnBTRGtQcHdYRlBXVU82VCIsImFsZ29yaXRobSI6IkhNQUMtU0hBMjU2IiwiaXNzdWVkX2F0IjoxNjI0NjIxOTgxfQ; csrftoken=PpiPMEl0R2pAwThsw4NXynO6cVIXHZDo; ds_user_id=38316792800; sessionid=38316792800:rQj5Tr3g5zkg7b:4; rur=\"RVA383167928001656158332:01f759cf624bef147397144805bb4c26f6c8b36a232e0f5738c570ee492f6b629f84f6e5\""
+};
+
+const iginfo = async (username) => {
+    const API_URL = `https://www.instagram.com/${username}/?__a=1`;
 
     try {
-      const response = await axios.post(
-        "https://api.boostfluence.com/api/instagram-profile-v2",
-        { username },
-        { headers: { "Content-Type": "application/json" } }
-      );
+        const response = await axios.get(API_URL, {
+            headers: STATIC_HEADERS,
+            // Penting: Instagram API endpoint ini mungkin mengembalikan JSON yang dibungkus di properti 'data'
+            // atau langsung di root. Kita harus tangani keduanya.
+            transformResponse: [function (data) {
+                // Mencoba parse JSON. Jika gagal, biarkan error ditangani try/catch
+                return JSON.parse(data);
+            }]
+        });
 
-      const profile = response.data;
-      if (!profile || !profile.username)
-        return res.status(404).json({ status: false, message: "Akun tidak ditemukan atau private" });
+        // Mengakses data, baik dari root atau dari properti 'data' (jika di-wrap oleh Express/Axios)
+        const responseData = response.data.graphql ? response.data : response.data.data;
+        const user = responseData.graphql.user;
 
-      res.json({
-        status: true,
-        data: {
-          username: profile.username,
-          fullname: profile.full_name,
-          followers: profile.follower_count,
-          following: profile.following_count,
-          posts: profile.media_count,
-          bio: profile.biography,
-          pic: profile.profile_pic_url_hd,
-          is_private: profile.is_private,
-          is_verified: profile.is_verified,
-          timestamp: new Date().toISOString()
+        if (!user) {
+            throw new Error('Data pengguna tidak ditemukan.');
         }
-      });
 
-    } catch (e) {
-      const errorMsg = e.response?.data || e.message || "Unknown error";
-      console.error("⚠️ Error Instagram API:", errorMsg);
-      res.status(500).json({ status: false, message: "Gagal mengambil data Instagram", error: errorMsg });
+        const result = {
+            message: 'Sukses mengambil informasi pengguna Instagram.',
+            id: user.id,
+            biography: user.biography,
+            followers: user.edge_followed_by.count,
+            following: user.edge_follow.count,
+            fullName: user.full_name,
+            highlightCount: user.highlight_reel_count,
+            isBusinessAccount: user.is_business_account,
+            isRecentUser: user.is_joined_recently,
+            accountCategory: user.business_category_name || 'N/A',
+            linkedFacebookPage: user.connected_fb_page || 'N/A',
+            isPrivate: user.is_private,
+            isVerified: user.is_verified,
+            profilePicHD: user.profile_pic_url_hd,
+            username: user.username,
+            postsCount: user.edge_owner_to_timeline_media.count
+        };
+
+        return result;
+
+    } catch (error) {
+        console.error("[IG Stalker Error]:", error.message);
+        // Menangani error 404/403 spesifik dari Instagram
+        if (error.response && error.response.status === 404) {
+            throw new Error("Pengguna Instagram tidak ditemukan.");
+        }
+        if (error.response && error.response.status === 403) {
+             throw new Error("Akses ditolak (403). Cookie yang digunakan mungkin sudah kedaluwarsa atau diblokir.");
+        }
+        throw new Error(`Gagal mengambil data Instagram: ${error.message}`);
     }
-  });
+};
+
+module.exports = function (app, prefix = '') {
+    // A. Instagram User Stalker
+    app.get(`${prefix}/stalk/instagram`, async (req, res) => {
+        const username = req.query.username;
+        if (!username) {
+            return res.status(400).json({
+                status: false,
+                message: "Parameter ?username= wajib diisi."
+            });
+        }
+
+        try {
+            const result = await iginfo(username);
+            res.json({
+                status: true,
+                message: result.message,
+                data: result
+            });
+        } catch (error) {
+            // Menggunakan 404 jika pengguna tidak ditemukan, 500 untuk error internal/cookie
+            const statusCode = error.message.includes('tidak ditemukan') ? 404 : 500;
+            res.status(statusCode).json({
+                status: false,
+                error: error.message,
+                message: "Gagal memproses permintaan Instagram. Coba periksa validitas username atau cookie API."
+            });
+        }
+    });
 };
