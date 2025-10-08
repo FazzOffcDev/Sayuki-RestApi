@@ -287,58 +287,14 @@
             <p class="small text-muted">Waktu Aktif</p>
           </div>
         </div>
-        <div class="col-6 col-md-3 mb-4">
-          <div class="stat-card">
-            <i class="bi bi-diagram-3-fill h3 text-primary"></i>
-            <h6 class="mt-2">Total API Endpoint</h6>
-            <p class="h5" id="totalApi">--</p>
-            <p class="small text-muted">Routes Available</p>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 mb-4">
-          <div class="stat-card">
-              <i class="bi bi-speedometer2 h3 text-warning"></i>
-              <h6 class="mt-2">Kecepatan API</h6>
-              <p class="h5" id="avgLatencyText">Menghitung...</p>
-              <div id="fastestRoutesList" class="small text-start mx-auto p-2" style="max-width: 150px;">
-                  <span class="text-muted">3 Tercepat dimuat...</span>
-              </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="row text-center mt-3">
-        <div class="col-6 col-md-3 mb-4">
-          <div class="stat-card">
-            <i class="bi bi-cloud-arrow-up h3 text-secondary"></i>
-            <h6 class="mt-2">Total Request</h6>
-            <p class="h5" id="totalRequests">--</p>
-            <p class="small text-muted">Semua Request</p>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 mb-4">
-            <div class="stat-card">
-                <i class="bi bi-bug h3 text-danger"></i>
-                <h6 class="mt-2">Top 3 Error Rate</h6>
-                <p class="h5 mb-0" id="globalErrorRate">0%</p>
-                <div id="errorRoutesList" class="small text-start mx-auto" style="max-width: 150px;">
-                    <span class="text-muted">Rute error dimuat...</span>
-                </div>
-            </div>
-        </div>
-
-
-      <div class="col-12 mt-3">
-      </div>
-    </div>
-    <h3 class="category-header mt-4">Smart Insight Panel 💡</h3>
+        <h3 class="category-header mt-4">Total Api Endpoint</h3>
     <div class="stat-card text-start mb-5">
-      <div id="insightContent">
-        <p class="small text-muted">Memuat insight...</p>
-      </div>
+           <center> <i class="bi bi-diagram-3-fill h3 text-primary"></i>
+           <center> <p class="h5" id="totalApi">--</p>
+            <p class="small text-muted">Routes Available</p>
     </div>
 
-    <h3 class="category-header mt-5">Global Traffic Map 🌍</h3>
+    <h3 class="category-header mt-5">Global Traffic Map  🌍</h3>
     <div class="stat-card text-center mb-5">
       <canvas id="worldMap" height="250"></canvas>
       <div class="flags-display mt-3 small text-muted">Memuat data negara...</div>
@@ -406,7 +362,7 @@
             <div id="apiQueryInputContainer" class="mb-3">
             </div>
             
-            <button id="submitQueryBtn" class="btn btn-success mb-3 w-100 d-none">Request API</button>
+            <button id="submitQueryBtn" class="btn btn-success mb-3 w-100 d-none">Request</button>
             
             <div id="apiResponseSpinner" class="text-center my-3 d-none">
                 <div class="spinner-border text-light" role="status"></div>
@@ -416,7 +372,7 @@
           </div>
 
           <div class="tab-pane fade" id="codeContent" role="tabpanel">
-            <button class="btn btn-sm btn-outline-light float-end mb-2" id="copyCodeBtn">Copy</button>
+            <button class="btn btn-sm btn-outline-light float-end mb-2" id="copyCodeBtn">Salin</button>
             <pre id="apiCodeExample" class="bg-black text-info p-3 rounded small"></pre>
           </div>
         </div>

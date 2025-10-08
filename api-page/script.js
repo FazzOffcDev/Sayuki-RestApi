@@ -172,23 +172,6 @@ async function updateUptimeList() {
   container.innerHTML = data.endpoints.map(u => makeUptimeItemHtml(u)).join('');
 }
 
-async function updateTimeline() {
-  const data = await fetchJson(`/health/timeline?limit=${TIMELINE_LIMIT}`);
-  if (!data || !data.timeline) return;
-  const container = document.getElementById('timelineContainer');
-  container.innerHTML = data.timeline.slice(0, TIMELINE_LIMIT).map(it => makeTimelineItemHtml(it)).join('');
-  // auto-scroll to top (most recent first)
-  container.scrollTop = 0;
-}
-
-async function tickAll() {
-  await Promise.all([
-    updateHealthList(),
-    updateUptimeList(),
-    updateTimeline()
-  ]);
-}
-
 // ===============================================
 // Bagian 2: Main Logic (DOMContentLoaded)
 // ===============================================
@@ -628,7 +611,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         modalRefs.content.classList.add('text-success');
 
       } catch (error) {
-        modalRefs.content.textContent = `Error: ${error.message}. Cek koneksi atau URL/Parameter.`;
+        modalRefs.content.textContent = `Error: ${error.message}. Cek koneksi atau URL/Parameter , atau hasil 0`;
         modalRefs.content.classList.remove('text-success');
         modalRefs.content.classList.add('text-danger');
       } finally {
@@ -639,7 +622,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         modalRefs.content.classList.remove('d-none');
       }
     }
-
 
     // ---------------------------------------------
     // Fungsi Rendering API List & Setup Listener (Tidak Berubah)
@@ -722,7 +704,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if(modalRefs.inputContainer) modalRefs.inputContainer.innerHTML = ''; 
         
         modalRefs.submitBtn.classList.remove('d-none'); 
-        modalRefs.submitBtn.textContent = 'Request API';
+        modalRefs.submitBtn.textContent = 'Request';
 
         const responseTabEl = document.getElementById('response-tab');
         if (responseTabEl) responseTabEl.click();
