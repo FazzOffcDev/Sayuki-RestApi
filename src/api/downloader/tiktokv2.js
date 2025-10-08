@@ -1,0 +1,43 @@
+/**
+ * TikTok Video Downloader (via api.siputzx.my.id/api/d/tiktok/v2)
+ */
+module.exports = function (app, prefix = '') {
+  const axios = require("axios");
+
+  // TikTok Video Downloader V2
+  app.get(`${prefix}/download/tiktokv2`, async (req, res) => {
+    const { url } = req.query;
+    
+    // Perbaikan: Jika tidak ada URL, berikan error custom di sisi server
+    if (!url) {
+        return res.status(400).json({ 
+            status: false, 
+            code: 400,
+            message: "Parameter ?url= wajib diisi." 
+        });
+    }
+
+    try {
+      const apiUrl = 'https://api.siputzx.my.id/api/d/tiktok/v2';
+      
+      const response = await axios.get(apiUrl, {
+        params: { url: url }, // Menggunakan parameter 'url' sesuai API baru
+        // API baru ini tidak memerlukan X-RapidAPI-Key
+      });
+
+      // Pastikan status sukses (walaupun API bisa mengembalikan status: false)
+      if (response.data.status === false) {
+          throw new Error(response.data.message || "Gagal mendapatkan data TikTok.");
+      }
+
+      res.json(response.data);
+    } catch (err) {
+      console.error("TikTok V2 ERROR:", err.message);
+      res.status(500).json({ 
+          status: false, 
+          error: err.message,
+          message: "Gagal memproses permintaan TikTok di server."
+      });
+    }
+  });
+};
